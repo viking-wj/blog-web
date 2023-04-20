@@ -1,14 +1,9 @@
 <template>
-  <a-button type="primary">Primary Button</a-button>
-  <a-button type="primary" loading>Loading</a-button>
+  <div>
+    <NavigationBar></NavigationBar>
+  </div>
 </template>
 
-<script lang="ts">
-import { Button } from 'ant-design-vue'
-
-export default {
-  components: {
-    'a-button': Button
-  }
-}
+<script lang="ts" setup>
+import NavigationBar from '@/components/base/NavigationBar.vue'
 </script>
