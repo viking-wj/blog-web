@@ -1,5 +1,6 @@
 <template>
   <a-button type="primary">Primary Button</a-button>
+  <a-button type="primary" loading>Loading</a-button>
 </template>
 
 <script lang="ts">
