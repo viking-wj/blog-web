@@ -35,7 +35,7 @@
       </a-menu>
     </div>
     <div class="use_info">
-      <HeadFrame></HeadFrame>
+      <HeadFrame :size="52"></HeadFrame>
     </div>
   </div>
 </template>
