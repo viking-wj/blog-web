@@ -5,9 +5,18 @@
       <div class="article_title">articleTitle</div>
       <div class="article_content">article_content</div>
       <div class="article_statics">
-        <heart-outlined class="statics_icon"/>
-        <star-outlined class="statics_icon"/>
-        <comment-outlined class="statics_icon"/>
+        <div>
+          <heart-outlined class="statics_icon" />
+          <span class="statics_number">12</span>
+        </div>
+        <div>
+          <star-outlined class="statics_icon" />
+          <span class="statics_number">12</span>
+        </div>
+        <div>
+          <comment-outlined class="statics_icon" />
+          <span class="statics_number">12</span>
+        </div>
       </div>
       <div class="article_card_bottom">
         <span class="user_info">
@@ -62,26 +71,35 @@ export default defineComponent({
   font-weight: 700;
   font-family: AdobeCleanHanSC !important;
   padding-top: 20px;
+  margin-left: 9%;
 }
 .article_content {
   margin-top: 4px;
   height: 20vh;
+  margin-left: 9%;
 }
 .article_statics {
   display: flex;
   justify-content: space-around;
 }
-.article_card_bottom{
-  margin-top:13%;
+.article_card_bottom {
+  margin-top: 10%;
+}
+.user_info {
+  margin-left: 9%;
 }
 .release_time {
   font-size: 14px;
   font-weight: 700;
+  line-height: 30px;
   font-family: AdobeCleanHanSC !important;
   float: right;
   margin-right: 10%;
 }
 .statics_icon {
   font-size: 16px;
+}
+.statics_number {
+  padding-left: 10px;
 }
 </style>
