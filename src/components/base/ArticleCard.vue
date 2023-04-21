@@ -4,12 +4,19 @@
     <div class="article_info">
       <div class="article_title">articleTitle</div>
       <div class="article_content">article_content</div>
-      <div class="article_statics"></div>
+      <div class="article_statics">
+        <heart-outlined class="statics_icon"/>
+        <star-outlined class="statics_icon"/>
+        <comment-outlined class="statics_icon"/>
+      </div>
       <div class="article_card_bottom">
-        <div class="user_info">
+        <span class="user_info">
           <HeadFrame :size="24"></HeadFrame>
-        </div>
-        <div class="release_time">发布于XXX年xx月xx时</div>
+        </span>
+        <span class="release_time">
+          <history-outlined />
+          发布于xxxx年xx月xx时
+        </span>
       </div>
     </div>
   </div>
@@ -17,10 +24,15 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HeadFrame from '../common/HeadFrame.vue';
+import HeadFrame from '../common/HeadFrame.vue'
+import { HeartOutlined, HistoryOutlined, StarOutlined, CommentOutlined } from '@ant-design/icons-vue'
 export default defineComponent({
   components: {
     HeadFrame,
+    HeartOutlined,
+    HistoryOutlined,
+    StarOutlined,
+    CommentOutlined
   }
 })
 </script>
@@ -35,13 +47,41 @@ export default defineComponent({
   -webkit-box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
 }
-.head_image{
+.head_image {
   float: left;
   width: 60%;
+  background-color: rgb(57, 123, 182);
 }
-.article_info{
+.article_info {
   width: 40%;
   float: right;
 }
 
+.article_title {
+  font-size: 17px;
+  font-weight: 700;
+  font-family: AdobeCleanHanSC !important;
+  padding-top: 20px;
+}
+.article_content {
+  margin-top: 4px;
+  height: 20vh;
+}
+.article_statics {
+  display: flex;
+  justify-content: space-around;
+}
+.article_card_bottom{
+  margin-top:13%;
+}
+.release_time {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: AdobeCleanHanSC !important;
+  float: right;
+  margin-right: 10%;
+}
+.statics_icon {
+  font-size: 16px;
+}
 </style>
