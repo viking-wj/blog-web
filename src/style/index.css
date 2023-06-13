@@ -1,0 +1,170 @@
+@font-face {
+  font-family: 'AdobeCleanHanSC';
+  src: url('../../static/font/emmmm.woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+*:not([class*="icon"]):not(i) {
+  font-family: "AdobeCleanHanSC" !important;
+}
+
+/**
+*波浪效果start
+*/
+.wave1 {
+  position: absolute;
+  bottom: 0;
+  height: 65px;
+  width: 400%;
+  _filter: alpha(opacity=80);
+  margin: -8px;
+  background: url("https://xiamo.oss-accelerate.aliyuncs.com/xiamo/background/wave1.png") repeat-x;
+  animation: waveMove1 90s linear infinite;
+}
+
+.wave2 {
+  position: absolute;
+  bottom: 0;
+  height: 65px;
+  width: 800%;
+  _filter: alpha(opacity=80);
+  margin: -8px;
+  left: 115px;
+  background: url("https://xiamo.oss-accelerate.aliyuncs.com/xiamo/background/wave2.png") repeat-x;
+  animation: waveMove2 90s linear infinite;
+}
+
+@keyframes waveMove1 {
+  0% {
+    left: -1450px
+  }
+
+  50% {
+    left: 0px
+  }
+
+  100% {
+    left: -1450px
+  }
+}
+
+@keyframes waveMove2 {
+  0% {
+    left: -2400px
+  }
+
+  50% {
+    left: 0px
+  }
+
+  100% {
+    left: -2400px
+  }
+}
+
+/**
+*波浪效果end
+*/
+
+/*icon显示隐藏start*/
+@keyframes iconHideOrShow {
+  from {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/*icon显示隐藏end*/
+
+/*scroll动画start*/
+@keyframes scrollMove {
+  from {
+    margin-top: 0px;
+  }
+
+  50% {
+    margin-top: 15px;
+  }
+
+  to {
+    margin-top: 0px;
+  }
+}
+
+/*scroll动画end*/
+
+
+.comment-enter-active {
+  animation: slide-bottom 0.5s;
+}
+
+.comment-leave-active {
+  animation: slide-bottom 0.5s reverse;
+}
+
+.fade-x-enter-active,
+.fade-x-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-x-enter,
+.fade-x-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+  {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+
+.scale-down-x-enter-active {
+  animation: scale-down 0.5s;
+}
+
+.scale-down-x-leave-active {
+  animation: scale-down 0.5s reverse;
+}
+
+
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+  {
+  opacity: 0;
+}
+
+span {
+  cursor: default;
+}
+
+.border-bottom-x {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+::-moz-selection {
+  background: rgba(68, 68, 68, 1);
+  color: #ffffff;
+}
+
+::selection {
+  background: rgba(68, 68, 68, 1);
+  color: #ffffff;
+}
