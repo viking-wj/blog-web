@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     contentClick() {
-      this.$router.push("/blog");
+      this.$router.push("/article");
     },
   },
   created() {},
