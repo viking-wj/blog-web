@@ -1,6 +1,6 @@
 <template>
   <div class="blog">
-    <!-- <div class="background">
+    <div class="background">
       <img
         src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/3.png"
       />
@@ -192,7 +192,7 @@
           </div>
         </div>
       </div>
-    </transition> -->
+    </transition>
   </div>
 </template>
 <!--textarea-title-hasv-->

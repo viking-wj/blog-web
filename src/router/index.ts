@@ -11,6 +11,11 @@ const routes: RouteRecordRaw[] = [
     name: "article",
     component: () => import("@/views/article/index.vue"),
   },
+  {
+    path: "/dynamic",
+    name: "dynamic",
+    component: () => import("@/views/dynamic/index.vue"),
+  },
 ];
 
 const router = createRouter({
