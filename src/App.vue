@@ -1,15 +1,15 @@
 <template>
   <div id="app">
     <a @click="scrollClick"><img class="scroll" src="../static/image/scroll.png"></a>
-    <headbar ref="headbar" @showSakura="showSakura"></headbar>
+    <headBar ref="headBar" @showSakura="showSakura"></headBar>
     <transition name="fade">
-      <router-view class="routerbar" @changeHeadCss="changeHeadCss" @showSakura="showSakura"></router-view>
+      <router-view class="routerBar" @changeHeadCss="changeHeadCss" @showSakura="showSakura"></router-view>
     </transition>
   </div>
 </template>
 
 <script>
-  import headbar from '@/components/headbar.vue'
+  import headBar from '@/components/headBar.vue'
   import home from '@/views/home/index.vue'
 
   export default {
@@ -22,7 +22,7 @@
       }
     },
     components: {
-      headbar: headbar,
+      headBar,
       home: home,
     },
     methods: {
@@ -39,15 +39,15 @@
       },
       changeHeadCss() {
         // console.log("%c修改头部css", "color:red")
-        this.$refs.headbar.isTools = true
+        this.$refs.headBar.isTools = true
       },
       handleScroll() {
         this.routerLink = this.$router.currentRoute.fullPath;
         if (this.routerLink === '/') {
           if (window.pageYOffset > 0) {
-            this.$refs.headbar.jsHover = true;
+            this.$refs.headBar.jsHover = true;
           } else {
-            this.$refs.headbar.jsHover = false;
+            this.$refs.headBar.jsHover = false;
           }
         }
         if (window.pageYOffset > 90) {
@@ -97,7 +97,7 @@
     color: #2c3e50;
   }
 
-  .headbar {
+  .headBar {
     position: fixed;
     width: 100%;
     z-index: 100;
@@ -141,7 +141,7 @@
     animation: scrollMove 2.5s linear infinite;
   }
 
-  .routerbar {
+  .routerBar {
     position: absolute;
     top: 0;
     bottom: 0;

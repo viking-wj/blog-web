@@ -195,7 +195,7 @@
     </transition>
   </div>
 </template>
-<!--textarea-title-hasv-->
+
 <script>
 export default {
   name: "blog",
@@ -298,10 +298,10 @@ export default {
     toImg(e) {
       window.open(e.currentTarget.src, "_blank");
     },
-    // onEditorChange({editor, html, text}) {
-    //   this.content = html;
-    //   console.log(html)
-    // },
+    onEditorChange({editor, html, text}) {
+      this.content = html;
+      console.log(html)
+    },
   },
   mounted() {
     window.scrollTo(0, 0);
