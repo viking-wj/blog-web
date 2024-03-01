@@ -16,7 +16,10 @@
         class="content_image"
         :style="{ float: index % 2 == 0 ? 'left' : 'right' }"
       >
-        <img :src="data.img" />
+        <img
+          :src="data.thumbnail"
+          onerror="this.src='https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/2.png';this.οnerrοr=null"
+        />
       </div>
       <div class="content_area">
         <div
@@ -25,14 +28,14 @@
         >
           <span
             ><i class="far fa-clock icon_size"></i>&nbsp;&nbsp;发布于
-            {{ data.time }}</span
+            {{ data.releaseTime }}</span
           >
         </div>
         <div
           class="content_title"
           :style="{ 'text-align': index % 2 == 0 ? 'right' : 'left' }"
         >
-          <span @click="contentClick">{{ data.title }}</span>
+          <span @click="contentClick(data.id)">{{ data.title }}</span>
         </div>
         <div
           class="content_full"
@@ -40,17 +43,17 @@
         >
           <span
             ><i class="far fa-comment-dots icon_size"></i>&nbsp;&nbsp;{{
-              data.comment_num
+              1
             }}条评论</span
           >
           <span style="margin-left: 8px"
             ><i class="far fa-folder icon_size"></i>&nbsp;&nbsp;{{
-              data.from
+              data.author.name
             }}</span
           >
         </div>
         <div class="content_text">
-          <span>{{ data.short_content }}</span>
+          <span>{{ data.context }}</span>
         </div>
       </div>
     </div>
@@ -60,29 +63,18 @@
 <script lang="ts" setup>
 import router from '@/router';
 import { reactive } from 'vue';
-let details = reactive([
-  {
-    time: '2020-05-28',
-    title: 'test',
-    short_content:
-      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    img: 'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/2.png',
-    comment_num: '2',
-    from: 'W'
-  },
-  {
-    time: '2020-05-22',
-    title: '测试',
-    short_content:
-      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-    img: 'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/2.png',
-    comment_num: '1',
-    from: 'W'
+import { searchArticleList } from '@/api/article';
+let details = reactive([] as any);
+searchArticleList({ title: '', categoryId: '', useId: '' }).then(
+  ({ data: data }) => {
+    data.forEach((artilcle: any) => {
+      details.push(artilcle);
+    });
   }
-]);
+);
 
-function contentClick() {
-  router.push('/article');
+function contentClick(id: string) {
+  router.push('/article/' + id);
 }
 </script>
 
