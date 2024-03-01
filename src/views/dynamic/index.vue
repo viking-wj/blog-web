@@ -46,7 +46,7 @@
 
 <script>
 export default {
-  name: "shuoshuo",
+  name: "dynamic",
   data() {
     return {
       content:
