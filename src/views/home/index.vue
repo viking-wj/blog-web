@@ -11,9 +11,11 @@
 </template>
 
 <script lang="ts" setup>
-import self from "@/components/self.vue"
-import contents from "@/components/contents.vue"
-import {ref,Ref} from "vue";
+import self from '@/components/self.vue';
+import contents from '@/components/contents.vue';
+import { ref, Ref } from 'vue';
+import { onMounted } from 'vue';
+import { searchArticleList } from '@/api/article';
 const scrollv: Ref<number> = ref(0);
 
 function resetScrollv() {
@@ -21,7 +23,10 @@ function resetScrollv() {
   scrollv.value = yOffset;
 }
 
-
+console.log('111');
+searchArticleList({ title: '', categoryId: '', useId: '' }).then((data) => {
+  console.log(data);
+});
 </script>
 
 <style scoped>

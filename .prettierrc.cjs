@@ -13,4 +13,5 @@ module.exports = {
   trailingComma: 'all', // 多行时尽可能打印尾随逗号
   useTabs: false, // 使用空格代替tab缩进
   vueIndentScriptAndStyle: false, // 不对vue中的script及style标签缩进
+  trailingComma: 'none', // 对象后面默认添加逗号
 };

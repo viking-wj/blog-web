@@ -1,27 +1,53 @@
 <template>
   <div id="contents">
     <div class="partingImg">
-      <img src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/bilibili_1.png" />
+      <img
+        src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/bilibili_1.png"
+      />
     </div>
-    <div class="details" v-for="(data, index) in details" :key="index" :style="{ 'margin-top': index > 0 ? '50px' : '' }">
-      <div @click="contentClick" class="content_image" :style="{ float: index % 2 == 0 ? 'left' : 'right' }">
+    <div
+      class="details"
+      v-for="(data, index) in details"
+      :key="index"
+      :style="{ 'margin-top': index > 0 ? '50px' : '' }"
+    >
+      <div
+        @click="contentClick"
+        class="content_image"
+        :style="{ float: index % 2 == 0 ? 'left' : 'right' }"
+      >
         <img :src="data.img" />
       </div>
       <div class="content_area">
-        <div class="release_time" :style="{ 'text-align': index % 2 == 0 ? 'right' : 'left' }">
-          <span><i class="far fa-clock icon_size"></i>&nbsp;&nbsp;发布于
-            {{ data.time }}</span>
+        <div
+          class="release_time"
+          :style="{ 'text-align': index % 2 == 0 ? 'right' : 'left' }"
+        >
+          <span
+            ><i class="far fa-clock icon_size"></i>&nbsp;&nbsp;发布于
+            {{ data.time }}</span
+          >
         </div>
-        <div class="content_title" :style="{ 'text-align': index % 2 == 0 ? 'right' : 'left' }">
+        <div
+          class="content_title"
+          :style="{ 'text-align': index % 2 == 0 ? 'right' : 'left' }"
+        >
           <span @click="contentClick">{{ data.title }}</span>
         </div>
-        <div class="content_full" :style="{ 'text-align': index % 2 == 0 ? 'right' : 'left' }">
-          <span><i class="far fa-comment-dots icon_size"></i>&nbsp;&nbsp;{{
-            data.comment_num
-          }}条评论</span>
-          <span style="margin-left: 8px"><i class="far fa-folder icon_size"></i>&nbsp;&nbsp;{{
-            data.from
-          }}</span>
+        <div
+          class="content_full"
+          :style="{ 'text-align': index % 2 == 0 ? 'right' : 'left' }"
+        >
+          <span
+            ><i class="far fa-comment-dots icon_size"></i>&nbsp;&nbsp;{{
+              data.comment_num
+            }}条评论</span
+          >
+          <span style="margin-left: 8px"
+            ><i class="far fa-folder icon_size"></i>&nbsp;&nbsp;{{
+              data.from
+            }}</span
+          >
         </div>
         <div class="content_text">
           <span>{{ data.short_content }}</span>
@@ -32,35 +58,32 @@
 </template>
 
 <script lang="ts" setup>
-import router from "@/router";
-import { reactive } from 'vue'
-
+import router from '@/router';
+import { reactive } from 'vue';
 let details = reactive([
   {
-    time: "2020-05-28",
-    title: "test",
+    time: '2020-05-28',
+    title: 'test',
     short_content:
-      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    img: "https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/2.png",
-    comment_num: "2",
-    from: "W",
+      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    img: 'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/2.png',
+    comment_num: '2',
+    from: 'W'
   },
   {
-    time: "2020-05-22",
-    title: "测试",
+    time: '2020-05-22',
+    title: '测试',
     short_content:
-      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    img: "https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/2.png",
-    comment_num: "1",
-    from: "W",
-  },
+      'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    img: 'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/2.png',
+    comment_num: '1',
+    from: 'W'
+  }
 ]);
 
 function contentClick() {
-  router.push("/article");
+  router.push('/article');
 }
-
-
 </script>
 
 <style scoped>
