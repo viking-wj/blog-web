@@ -29,7 +29,7 @@ http.interceptors.response.use(
       return Promise.resolve(data);
     }
   },
-  (error) => {
+  (error: any) => {
     if (error.response.status) {
       // 状态码超过 2xx 范围时都会调用该函数，处理错误响应
       switch (error.response.status) {

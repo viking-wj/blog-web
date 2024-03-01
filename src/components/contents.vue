@@ -12,7 +12,7 @@
       :style="{ 'margin-top': index > 0 ? '50px' : '' }"
     >
       <div
-        @click="contentClick"
+        @click="contentClick(data.id)"
         class="content_image"
         :style="{ float: index % 2 == 0 ? 'left' : 'right' }"
       >
@@ -53,7 +53,7 @@
           >
         </div>
         <div class="content_text">
-          <span>{{ data.context }}</span>
+          <span v-html="data.context"></span>
         </div>
       </div>
     </div>
@@ -64,10 +64,13 @@
 import router from '@/router';
 import { reactive } from 'vue';
 import { searchArticleList } from '@/api/article';
+import { marked } from 'marked';
+
 let details = reactive([] as any);
 searchArticleList({ title: '', categoryId: '', useId: '' }).then(
   ({ data: data }) => {
     data.forEach((artilcle: any) => {
+      artilcle.context = marked(artilcle.context);
       details.push(artilcle);
     });
   }

@@ -125,7 +125,7 @@
             </textarea>
             <div
               :class="[
-                comment_this != '' ? 'textarea-title-hasv' : 'textarea-title',
+                comment_this != '' ? 'textarea-title-hasv' : 'textarea-title'
               ]"
             >
               <span>
@@ -198,27 +198,26 @@
 
 <script>
 export default {
-  name: "blog",
   data() {
     return {
-      comment_title: "你是我一生只会遇见一次的惊喜 ...",
-      comment_this: "",
+      comment_title: '你是我一生只会遇见一次的惊喜 ...',
+      comment_this: '',
       showCbtn: true,
       showComment: false,
       startani: false,
       startani2: false,
       content:
         '<p>123</p><h2>123</h2><p>123</p><pre class="ql-syntax" spellcheck="false">：asdfsdfsadfkljskfld\n' +
-        "</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>",
+        '</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>',
       editorOption: {
-        placeholder: "编辑文章内容",
+        placeholder: '编辑文章内容'
       },
       next_blog_img:
-        "https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/10.jpg",
-      next_blog_title: "emmmmmm",
+        'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/10.jpg',
+      next_blog_title: 'emmmmmm',
       file: null,
-      localfile: "",
-      comment_img: [],
+      localfile: '',
+      comment_img: []
     };
   },
   methods: {
@@ -226,40 +225,40 @@ export default {
     async handleFileChange(e) {
       let file = e.target.files[0];
       let formdata = new FormData();
-      formdata.append("file", file);
+      formdata.append('file', file);
       // 这边是传图到了阿里云oss，还请手下留情
       let res = await this.$axios.post(
-        "https://api.xiamoqwq.com/common/uploadimg",
+        'https://api.xiamoqwq.com/common/uploadimg',
         formdata,
         {
           headers: {
-            "Content-Type": "multipart/form-data",
-          },
+            'Content-Type': 'multipart/form-data'
+          }
         }
       );
       let imgs = {
         id: this.comment_img.length,
-        url: res.data.url,
+        url: res.data.url
       };
       this.comment_img.push(imgs);
       // 图片[img][/img]
-      let comment = this.comment_this.split("[/img]");
+      let comment = this.comment_this.split('[/img]');
       // 获取输入的评论
-      let comment_content = comment[comment.length - 1].replace(/[\r\n]/g, "");
-      let imgData = "";
+      let comment_content = comment[comment.length - 1].replace(/[\r\n]/g, '');
+      let imgData = '';
       this.comment_img.forEach(function (data) {
-        imgData += "[img]" + data.url + "[/img]";
+        imgData += '[img]' + data.url + '[/img]';
       });
-      let reComment = imgData + "\n" + comment_content;
+      let reComment = imgData + '\n' + comment_content;
       this.comment_this = reComment;
-      this.$refs.inputer.value = "";
+      this.$refs.inputer.value = '';
     },
     commentChange() {},
     showCom() {
       this.showComment = true;
       this.showCbtn = false;
       // let yOffset = document.documentElement.scrollTop;
-      let creator = document.getElementById("blog-creator");
+      let creator = document.getElementById('blog-creator');
       let scrollto = creator.offsetTop - 100;
       let scrollInterval = setInterval(function () {
         let yOffset2 = document.documentElement.scrollTop;
@@ -273,7 +272,7 @@ export default {
     hideCom() {
       this.showCbtn = true;
       this.showComment = false;
-      let creator = document.getElementById("blog-creator");
+      let creator = document.getElementById('blog-creator');
       let scrollto = creator.offsetTop - 500;
       let yOffset = document.documentElement.scrollTop;
       let yLess = 1;
@@ -292,16 +291,16 @@ export default {
       console.log(anmiaton);
       this.animation = anmiaton;
       setTimeout(() => {
-        this.animation = "";
+        this.animation = '';
       }, 1000);
     },
     toImg(e) {
-      window.open(e.currentTarget.src, "_blank");
+      window.open(e.currentTarget.src, '_blank');
     },
-    onEditorChange({editor, html, text}) {
+    onEditorChange({ editor, html, text }) {
       this.content = html;
-      console.log(html)
-    },
+      console.log(html);
+    }
   },
   mounted() {
     window.scrollTo(0, 0);
@@ -309,7 +308,7 @@ export default {
   },
   destroyed() {
     this.$parent.routerLink = this.$router.currentRoute.fullPath;
-  },
+  }
 };
 </script>
 
@@ -498,7 +497,7 @@ export default {
       padding: 20px;
       max-width: 100%;
       min-width: 100%;
-      background-image: url("https://xiamo.oss-cn-shenzhen.aliyuncs.com/xiamo/%E6%8F%92%E7%94%BB/background.png");
+      background-image: url('https://xiamo.oss-cn-shenzhen.aliyuncs.com/xiamo/%E6%8F%92%E7%94%BB/background.png');
       background-size: contain;
       background-repeat: no-repeat;
       font-size: 13px;
