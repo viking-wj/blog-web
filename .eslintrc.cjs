@@ -2,7 +2,8 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
-    node: true
+    node: true,
+    jquery: true
   },
   extends: [
     'eslint:recommended',
@@ -17,7 +18,8 @@ module.exports = {
   plugins: ['vue', '@typescript-eslint'],
   rules: {
     // 自定义规则
-    'no-unused-vars': 'error',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
     camelcase: 'warn',
     quotes: ['error', 'single'],
     semi: ['error', 'always'],

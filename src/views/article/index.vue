@@ -7,15 +7,15 @@
     </div>
 
     <div class="ql-container ql-snow ql-bar blog-bar">
-      <div class="ql-editor" v-html="content"></div>
+      <div class="ql-editor" v-html="comment.content"></div>
     </div>
 
     <div
       class="next_blog blog-bar"
-      :style="{ background: 'url(' + next_blog_img + ') no-repeat 100%' }"
+      :style="{ background: 'url(' + comment.nextBlogImg + ') no-repeat 100%' }"
     >
       <span>Previous Post</span>
-      <span>{{ next_blog_title }}</span>
+      <span>{{ comment.nextBlogTitle }}</span>
       <div class="mask"></div>
     </div>
 
@@ -40,7 +40,11 @@
     </div>
 
     <transition name="fade-x">
-      <div class="show-comments blog-bar" v-if="showCbtn" @click="showCom">
+      <div
+        class="show-comments blog-bar"
+        v-if="comment.showCbtn"
+        @click="showCom"
+      >
         <div class="line-grey">
           <span class="text-black">
             <i class="far fa-comment-dots" style="margin-right: 5px"></i
@@ -52,7 +56,7 @@
     </transition>
 
     <transition name="comment">
-      <div class="blog-bar comments" v-if="showComment">
+      <div class="blog-bar comments" v-if="comment.showComment">
         <div class="comments-title text-black">
           <span>Comments | </span>
           <span>5条评论</span>
@@ -119,17 +123,17 @@
           <div class="textarea-blog">
             <textarea
               class="area-content"
-              v-model="comment_this"
+              v-model="comment.this"
               @blur="commentChange()"
             >
             </textarea>
             <div
               :class="[
-                comment_this != '' ? 'textarea-title-hasv' : 'textarea-title'
+                comment.this != '' ? 'textarea-title-hasv' : 'textarea-title'
               ]"
             >
               <span>
-                {{ comment_title }}
+                {{ comment.title }}
               </span>
             </div>
           </div>
@@ -137,7 +141,7 @@
             <transition-group name="fade-x">
               <div
                 class="c-img-item"
-                v-for="data in comment_img"
+                v-for="data in comment.commentImg"
                 :key="data.id"
               >
                 <img @click="toImg" :src="data.url" />
@@ -148,7 +152,7 @@
 
         <div class="blog-bar comment-user">
           <div class="comment-user-avatar">
-            <img v-if="localfile" :src="localfile" />
+            <img v-if="comment.localfile" :src="comment.localfile" />
             <img
               v-else
               src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/xiamo/avatar/acb96e986eb0ac7e456c3c7f3665a59.jpg"
@@ -196,120 +200,101 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      comment_title: '你是我一生只会遇见一次的惊喜 ...',
-      comment_this: '',
-      showCbtn: true,
-      showComment: false,
-      startani: false,
-      startani2: false,
-      content:
-        '<p>123</p><h2>123</h2><p>123</p><pre class="ql-syntax" spellcheck="false">：asdfsdfsadfkljskfld\n' +
-        '</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>',
-      editorOption: {
-        placeholder: '编辑文章内容'
-      },
-      next_blog_img:
-        'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/10.jpg',
-      next_blog_title: 'emmmmmm',
-      file: null,
-      localfile: '',
-      comment_img: []
-    };
+<script lang="ts" setup>
+import { useRoute } from 'vue-router';
+import { ref, reactive, onMounted, onUnmounted } from 'vue';
+
+onMounted(() => {
+  const { params } = useRoute();
+  console.log(params);
+  window.scrollTo(0, 0);
+  // this.$parent.$refs.headbar.jsHover = true;
+});
+
+onUnmounted(() => {
+  // this.$parent.routerLink = this.$router.currentRoute.fullPath;
+});
+
+let comment = reactive({
+  title: '你是我一生只会遇见一次的惊喜 ...',
+  this: '',
+  showCbtn: true,
+  showComment: false,
+  startani: false,
+  startani2: false,
+  content:
+    '<p>123</p><h2>123</h2><p>123</p><pre class="ql-syntax" spellcheck="false">：asdfsdfsadfkljskfld\n' +
+    '</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>',
+  editorOption: {
+    placeholder: '编辑文章内容'
   },
-  methods: {
-    // 图片上传
-    async handleFileChange(e) {
-      let file = e.target.files[0];
-      let formdata = new FormData();
-      formdata.append('file', file);
-      // 这边是传图到了阿里云oss，还请手下留情
-      let res = await this.$axios.post(
-        'https://api.xiamoqwq.com/common/uploadimg',
-        formdata,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-      );
-      let imgs = {
-        id: this.comment_img.length,
-        url: res.data.url
-      };
-      this.comment_img.push(imgs);
-      // 图片[img][/img]
-      let comment = this.comment_this.split('[/img]');
-      // 获取输入的评论
-      let comment_content = comment[comment.length - 1].replace(/[\r\n]/g, '');
-      let imgData = '';
-      this.comment_img.forEach(function (data) {
-        imgData += '[img]' + data.url + '[/img]';
-      });
-      let reComment = imgData + '\n' + comment_content;
-      this.comment_this = reComment;
-      this.$refs.inputer.value = '';
-    },
-    commentChange() {},
-    showCom() {
-      this.showComment = true;
-      this.showCbtn = false;
-      // let yOffset = document.documentElement.scrollTop;
-      let creator = document.getElementById('blog-creator');
-      let scrollto = creator.offsetTop - 100;
-      let scrollInterval = setInterval(function () {
-        let yOffset2 = document.documentElement.scrollTop;
-        if (yOffset2 < scrollto) {
-          window.scrollTo(0, yOffset2 + 10);
-        } else {
-          clearInterval(scrollInterval);
-        }
-      }, 10);
-    },
-    hideCom() {
-      this.showCbtn = true;
-      this.showComment = false;
-      let creator = document.getElementById('blog-creator');
-      let scrollto = creator.offsetTop - 500;
-      let yOffset = document.documentElement.scrollTop;
-      let yLess = 1;
-      yLess = (yOffset - scrollto) / 40;
-      let scrollInterval = setInterval(function () {
-        let yOffset2 = document.documentElement.scrollTop;
-        if (yOffset2 - scrollto > 1) {
-          window.scrollTo(0, yOffset2 - yLess);
-        } else {
-          clearInterval(scrollInterval);
-        }
-      }, 10);
-    },
-    Toggle(e) {
-      var anmiaton = e.currentTarget.dataset.class;
-      console.log(anmiaton);
-      this.animation = anmiaton;
-      setTimeout(() => {
-        this.animation = '';
-      }, 1000);
-    },
-    toImg(e) {
-      window.open(e.currentTarget.src, '_blank');
-    },
-    onEditorChange({ editor, html, text }) {
-      this.content = html;
-      console.log(html);
+  nextBlogImg:
+    'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/10.jpg',
+  nextBlogTitle: 'emmmmmm',
+  file: null,
+  localfile: '',
+  commentImg: [] as any
+});
+
+// 图片上传
+async function handleFileChange(e: any) {
+  console.log('upload pic');
+}
+
+function commentChange() {
+  console.log('commentChange');
+}
+
+function showCom() {
+  comment.showComment = true;
+  comment.showCbtn = false;
+  // let yOffset = document.documentElement.scrollTop;
+  let creator: any = document.getElementById('blog-creator');
+  let scrollto = creator.offsetTop - 100;
+  let scrollInterval = setInterval(function () {
+    let yOffset2 = document.documentElement.scrollTop;
+    if (yOffset2 < scrollto) {
+      window.scrollTo(0, yOffset2 + 10);
+    } else {
+      clearInterval(scrollInterval);
     }
-  },
-  mounted() {
-    window.scrollTo(0, 0);
-    this.$parent.$refs.headbar.jsHover = true;
-  },
-  destroyed() {
-    this.$parent.routerLink = this.$router.currentRoute.fullPath;
-  }
-};
+  }, 10);
+}
+
+function hideCom() {
+  comment.showCbtn = true;
+  comment.showComment = false;
+  let creator: any = document.getElementById('blog-creator');
+  let scrollto = creator.offsetTop - 500;
+  let yOffset = document.documentElement.scrollTop;
+  let yLess = 1;
+  yLess = (yOffset - scrollto) / 40;
+  let scrollInterval = setInterval(function () {
+    let yOffset2 = document.documentElement.scrollTop;
+    if (yOffset2 - scrollto > 1) {
+      window.scrollTo(0, yOffset2 - yLess);
+    } else {
+      clearInterval(scrollInterval);
+    }
+  }, 10);
+}
+
+function Toggle(e: any) {
+  var anmiaton = e.currentTarget.dataset.class;
+  console.log(anmiaton);
+  // this.animation = anmiaton;
+  // 定时清空动画
+  setTimeout(() => {
+    // this.animation = '';
+  }, 1000);
+}
+function toImg(e: any) {
+  window.open(e.currentTarget.src, '_blank');
+}
+function onEditorChange({ editor, html, text }: any) {
+  comment.content = html;
+  console.log(html);
+}
 </script>
 
 <style scoped lang="scss">
