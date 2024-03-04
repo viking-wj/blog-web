@@ -7,7 +7,7 @@
     </div>
 
     <div class="ql-container ql-snow ql-bar blog-bar">
-      <div class="ql-editor" v-html="comment.content"></div>
+      <div class="ql-editor" v-html="marked(article.context)"></div>
     </div>
 
     <div
@@ -19,6 +19,7 @@
       <div class="mask"></div>
     </div>
 
+    <!-- 文章发布人信息 -->
     <div
       class="split-line blog-bar"
       style="text-align: center"
@@ -29,7 +30,9 @@
           src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/avatar.jpg"
         />
       </div>
-      <div class="blogger" style="color: #ababab"><span>xiamo</span></div>
+      <div class="blogger" style="color: #ababab">
+        <span>{{ article.author.name }}</span>
+      </div>
       <span class="signature" style="color: #7d8588"
         ><i
           class="fas fa-pencil-alt"
@@ -38,7 +41,7 @@
         >がんばって！</span
       >
     </div>
-
+    <!-- 评论模块暂缓 -->
     <transition name="fade-x">
       <div
         class="show-comments blog-bar"
@@ -203,17 +206,8 @@
 <script lang="ts" setup>
 import { useRoute } from 'vue-router';
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
-
-onMounted(() => {
-  const { params } = useRoute();
-  console.log(params);
-  window.scrollTo(0, 0);
-  // this.$parent.$refs.headbar.jsHover = true;
-});
-
-onUnmounted(() => {
-  // this.$parent.routerLink = this.$router.currentRoute.fullPath;
-});
+import { searchArticleDetail } from '@/api/article';
+import { marked } from 'marked';
 
 let comment = reactive({
   title: '你是我一生只会遇见一次的惊喜 ...',
@@ -236,6 +230,39 @@ let comment = reactive({
   commentImg: [] as any
 });
 
+let article = reactive({
+  id: '',
+  author: {
+    id: '',
+    name: '',
+    avatar: ''
+  },
+  category: {},
+  title: '',
+  context: '',
+  thumbnail: '',
+  sourceLink: '',
+  releaseTime: ''
+});
+
+onMounted(() => {
+  const { params } = useRoute();
+  window.scrollTo(0, 0);
+  // this.$parent.$refs.headbar.jsHover = true;
+  loadArticle(params.id[0]);
+});
+
+onUnmounted(() => {
+  // this.$parent.routerLink = this.$router.currentRoute.fullPath;
+});
+
+function loadArticle(articleId: string) {
+  searchArticleDetail(articleId).then(({ data: data }) => {
+    article = data;
+    console.log(data);
+    // article.context = marked(article.context);
+  });
+}
 // 图片上传
 async function handleFileChange(e: any) {
   console.log('upload pic');

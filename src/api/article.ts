@@ -10,3 +10,9 @@ export async function searchArticleList(
 }
 
 // 查询文章详情
+export async function searchArticleDetail(
+  id: string,
+  config?: AxiosRequestConfig
+): Promise<AxiosResponse> {
+  return http.get(`/article/${id}`, config);
+}

@@ -2,12 +2,18 @@
   <div class="headBar" :class="[isTools ? 'dark' : '']">
     <div :class="['top', jsHover ? 'topJsHover' : '']">
       <div class="img_div">
-        <img src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/star.png" />
+        <img
+          src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/star.png"
+        />
       </div>
       <div class="title" @click="toLink('/')"><span>W</span></div>
       <div :class="['menu', jsHover ? 'menuHover' : '']">
         <div class="item" v-for="(data, index) in menu" :key="index">
-          <div :class="['item_font', data.name]" @mouseenter="itemHover(data.name)" @mouseleave="itemLeave(data.name)">
+          <div
+            :class="['item_font', data.name]"
+            @mouseenter="itemHover(data.name)"
+            @mouseleave="itemLeave(data.name)"
+          >
             <div @click="toLink(data.link)">
               <i :class="[data.class]"></i>
               <span>{{ data.text }}</span>
@@ -22,59 +28,61 @@
 
 <script lang="ts" setup>
 import router from '@/router';
-import { ref, reactive, defineEmits } from 'vue'
-const emit = defineEmits(["showSakura"]);
+import { ref, reactive, defineEmits } from 'vue';
+import $ from 'jquery';
+
+const emit = defineEmits(['showSakura']);
 let isTools = ref(false);
 let jsHover = ref(false);
 let menu = reactive([
   {
-    name: "main",
-    text: "首页",
-    class: "fas fa-tree",
+    name: 'main',
+    text: '首页',
+    class: 'fas fa-tree',
     index: 1,
-    link: "/",
+    link: '/'
   },
   {
-    name: "shuoshuo",
-    text: "说说",
-    class: "fas fa-star",
+    name: 'shuoshuo',
+    text: '说说',
+    class: 'fas fa-star',
     index: 2,
-    link: "/shuoshuo",
+    link: '/shuoshuo'
   },
   {
-    name: "suibi",
-    text: "随笔",
-    class: "fas fa-broom",
+    name: 'suibi',
+    text: '随笔',
+    class: 'fas fa-broom',
     index: 2,
-    link: "/tools",
-  },
+    link: '/tools'
+  }
 ]);
 
 function toLink(link: string) {
-  if (link == "/tools") {
-    emit("showSakura", false);
+  if (link == '/tools') {
+    emit('showSakura', false);
     isTools.value = true;
   } else {
-    emit("showSakura", true);
+    emit('showSakura', true);
     isTools.value = false;
   }
   router.push(link);
 }
 
 function itemHover(name: string) {
-  $("." + name + ">.item_font_strip").css("width", "100%");
-  $("." + name).css("color", "#fe9600");
+  $('.' + name + '>.item_font_strip').css('width', '100%');
+  $('.' + name).css('color', '#fe9600');
 }
 
 function itemLeave(name: string) {
-  $("." + name + ">.item_font_strip").css("width", "0%");
-  $("." + name).css("color", "unset");
+  $('.' + name + '>.item_font_strip').css('width', '0%');
+  $('.' + name).css('color', 'unset');
 }
 
 defineExpose({
   isTools,
   jsHover
-})
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -149,7 +157,7 @@ defineExpose({
   margin-left: 35px !important;
 }
 
-.img_div>img {
+.img_div > img {
   width: 35px;
   animation: img_spin 3s linear infinite;
 }
@@ -189,7 +197,7 @@ defineExpose({
   box-shadow: 0 0 20px rgba(0, 0, 0, 1);
 }
 
-.top>div {
+.top > div {
   margin-left: 15px;
 }
 
