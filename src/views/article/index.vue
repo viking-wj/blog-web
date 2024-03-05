@@ -7,7 +7,7 @@
     </div>
 
     <div class="ql-container ql-snow ql-bar blog-bar">
-      <div class="ql-editor" v-html="marked(article.context)"></div>
+      <div v-html="marked(article.context)" style="white-space: pre-wrap"></div>
     </div>
 
     <div
@@ -259,7 +259,6 @@ onUnmounted(() => {
 function loadArticle(articleId: string) {
   searchArticleDetail(articleId).then(({ data: data }) => {
     article = data;
-    console.log(data);
     // article.context = marked(article.context);
   });
 }
