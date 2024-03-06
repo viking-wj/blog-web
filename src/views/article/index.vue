@@ -7,7 +7,7 @@
     </div>
 
     <div class="ql-container ql-snow ql-bar blog-bar">
-      <div v-html="marked(article.context)" style="white-space: pre-wrap"></div>
+      <div class="ql-editor" v-html="marked(article.context)"></div>
     </div>
 
     <div
@@ -26,9 +26,7 @@
       id="blog-creator"
     >
       <div class="user_avatar">
-        <img
-          src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/avatar.jpg"
-        />
+        <img :src="article.author.avatar" />
       </div>
       <div class="blogger" style="color: #ababab">
         <span>{{ article.author.name }}</span>
@@ -230,7 +228,7 @@ let comment = reactive({
   commentImg: [] as any
 });
 
-let article = reactive({
+let article = ref({
   id: '',
   author: {
     id: '',
@@ -258,7 +256,8 @@ onUnmounted(() => {
 
 function loadArticle(articleId: string) {
   searchArticleDetail(articleId).then(({ data: data }) => {
-    article = data;
+    article.value = data;
+    console.log(article);
     // article.context = marked(article.context);
   });
 }

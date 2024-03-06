@@ -42,9 +42,9 @@
           :style="{ 'text-align': index % 2 == 0 ? 'right' : 'left' }"
         >
           <span
-            ><i class="far fa-comment-dots icon_size"></i>&nbsp;&nbsp;{{
-              1
-            }}条评论</span
+            ><i class="far fa-comment-dots icon_size"></i>&nbsp;&nbsp;
+            {{ data.commentCount }}
+            条评论</span
           >
           <span style="margin-left: 8px"
             ><i class="far fa-folder icon_size"></i>&nbsp;&nbsp;{{

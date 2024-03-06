@@ -3,10 +3,13 @@
     <!--    <div :style="{'height':height+'px'}">-->
     <div>
       <div class="detail">
-        <div class="avatar_box" :style="{ 'background-image': 'url(' + avatar2 + ')' }">
+        <div
+          class="avatar_box"
+          :style="{ 'background-image': 'url(' + avatar2 + ')' }"
+        >
           <div class="avatar_img">
-            <img :src="avatar">
-            <img :src="avatar3">
+            <img :src="avatar" />
+            <img :src="avatar3" />
           </div>
         </div>
         <div class="message_box">
@@ -18,11 +21,21 @@
             </span>
           </div>
           <div class="social">
-            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png">
-            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/qq.png">
-            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/bilibili.png">
-            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/wangyiyun.png">
-            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/email.svg">
+            <img
+              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/qq.png"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/bilibili.png"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/wangyiyun.png"
+            />
+            <img
+              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/email.svg"
+            />
           </div>
         </div>
       </div>
@@ -35,13 +48,18 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 let height = ref(document.documentElement.clientHeight);
-let avatar = ref('https://myblog-w.oss-cn-shenzhen.aliyuncs.com/assest/avatar_admin.jpg');
-let avatar2 = ref('https://xiamo.oss-cn-shenzhen.aliyuncs.com/avatar/box/avatar_box.png');
-let avatar3 = ref('https://xiamo.oss-cn-shenzhen.aliyuncs.com/gif/i585v-vgfjl.gif');
+let avatar = ref(
+  'https://myblog-w.oss-cn-shenzhen.aliyuncs.com/assest/avatar_admin.jpg'
+);
+let avatar2 = ref(
+  'https://xiamo.oss-cn-shenzhen.aliyuncs.com/avatar/box/avatar_box.png'
+);
+let avatar3 = ref(
+  'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gif/i585v-vgfjl.gif'
+);
 let sentence = ref('像繁星一样，黯淡了的');
-
 </script>
 
 <style scoped>
@@ -87,31 +105,31 @@ let sentence = ref('像繁星一样，黯淡了的');
   position: absolute;
   transform: rotate(0deg);
   opacity: 1;
-  transition: all .8s linear;
+  transition: all 0.8s linear;
 }
 
 .avatar_box:hover .avatar_img img:first-child {
   transform: rotate(360deg);
   opacity: 0;
-  transition: all .8s linear
+  transition: all 0.8s linear;
 }
 
 .avatar_img img:nth-child(2) {
   width: 100%;
   border-radius: 100%;
   opacity: 0;
-  transition: all .8s linear;
+  transition: all 0.8s linear;
 }
 
 .avatar_box:hover .avatar_img img:nth-child(2) {
   opacity: 1;
-  transition: all .8s linear
+  transition: all 0.8s linear;
 }
 
 .message_box {
   width: 100%;
   height: 90px;
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, 0.5);
   border-radius: 10px;
   margin-top: 15px;
 }
