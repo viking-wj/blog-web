@@ -206,6 +206,20 @@ import { useRoute } from 'vue-router';
 import { ref, reactive, onMounted, onUnmounted } from 'vue';
 import { searchArticleDetail } from '@/api/article';
 import { marked } from 'marked';
+import { markedHighlight } from 'marked-highlight';
+import hljs from 'highlight.js';
+import 'highlight.js/styles/base16/darcula.css';
+
+// 高亮拓展
+marked.use(
+  markedHighlight({
+    langPrefix: 'hljs language-',
+    highlight(code, lang) {
+      const language = hljs.getLanguage(lang) ? lang : 'shell';
+      return hljs.highlight(code, { language }).value;
+    }
+  })
+);
 
 let comment = reactive({
   title: '你是我一生只会遇见一次的惊喜 ...',
@@ -257,10 +271,9 @@ onUnmounted(() => {
 function loadArticle(articleId: string) {
   searchArticleDetail(articleId).then(({ data: data }) => {
     article.value = data;
-    console.log(article);
-    // article.context = marked(article.context);
   });
 }
+marked.use();
 // 图片上传
 async function handleFileChange(e: any) {
   console.log('upload pic');
