@@ -36,7 +36,7 @@
           class="fas fa-pencil-alt"
           style="margin-right: 8px; color: #fe9600"
         ></i
-        >がんばって！</span
+        >{{ article.author.description }}</span
       >
     </div>
     <!-- 评论模块暂缓 -->
@@ -51,7 +51,7 @@
             <i class="far fa-comment-dots" style="margin-right: 5px"></i
             >查看评论 -
           </span>
-          <span class="text-gray">5条评论</span>
+          <span class="text-gray">{{ article.commentCount }}条评论</span>
         </div>
       </div>
     </transition>
@@ -63,7 +63,7 @@
           <span>5条评论</span>
           <span class="text-orange" @click="hideCom">收起评论</span>
         </div>
-        <div
+        <!-- <div
           class="comment-bar border-bottom-x"
           v-for="index of 5"
           :key="index"
@@ -118,8 +118,15 @@
               </p>
             </div>
           </div>
+        </div> -->
+        <div>
+          <comments
+            v-for="(comment, index) in commentsList"
+            :key="index"
+            :comment="comment"
+          ></comments>
         </div>
-
+        <!--评论发布-->
         <div class="comment-textarea blog-bar">
           <div class="textarea-blog">
             <textarea
@@ -209,6 +216,8 @@ import { marked } from 'marked';
 import { markedHighlight } from 'marked-highlight';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/base16/darcula.css';
+import comments from '@/components/comments.vue';
+import { ElNotification } from 'element-plus';
 
 // 高亮拓展
 marked.use(
@@ -247,15 +256,19 @@ let article = ref({
   author: {
     id: '',
     name: '',
-    avatar: ''
+    avatar: '',
+    description: ''
   },
   category: {},
   title: '',
   context: '',
   thumbnail: '',
   sourceLink: '',
-  releaseTime: ''
+  releaseTime: '',
+  commentCount: ''
 });
+
+let commentsList = ref([]);
 
 onMounted(() => {
   const { params } = useRoute();
@@ -271,6 +284,7 @@ onUnmounted(() => {
 function loadArticle(articleId: string) {
   searchArticleDetail(articleId).then(({ data: data }) => {
     article.value = data;
+    commentsList.value = data.comments;
   });
 }
 marked.use();
@@ -284,19 +298,24 @@ function commentChange() {
 }
 
 function showCom() {
-  comment.showComment = true;
-  comment.showCbtn = false;
-  // let yOffset = document.documentElement.scrollTop;
-  let creator: any = document.getElementById('blog-creator');
-  let scrollto = creator.offsetTop - 100;
-  let scrollInterval = setInterval(function () {
-    let yOffset2 = document.documentElement.scrollTop;
-    if (yOffset2 < scrollto) {
-      window.scrollTo(0, yOffset2 + 10);
-    } else {
-      clearInterval(scrollInterval);
-    }
-  }, 10);
+  ElNotification({
+    title: '消息',
+    message: '敬请期待!',
+    position: 'bottom-right'
+  });
+  comment.showComment = false;
+  comment.showCbtn = true;
+  // // let yOffset = document.documentElement.scrollTop;
+  // let creator: any = document.getElementById('blog-creator');
+  // let scrollto = creator.offsetTop - 100;
+  // let scrollInterval = setInterval(function () {
+  //   let yOffset2 = document.documentElement.scrollTop;
+  //   if (yOffset2 < scrollto) {
+  //     window.scrollTo(0, yOffset2 + 10);
+  //   } else {
+  //     clearInterval(scrollInterval);
+  //   }
+  // }, 10);
 }
 
 function hideCom() {
