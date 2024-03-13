@@ -41,21 +41,21 @@ let menu = reactive([
     class: 'fas fa-tree',
     index: 1,
     link: '/'
-  },
-  {
-    name: 'shuoshuo',
-    text: '说说',
-    class: 'fas fa-star',
-    index: 2,
-    link: '/shuoshuo'
-  },
-  {
-    name: 'suibi',
-    text: '随笔',
-    class: 'fas fa-broom',
-    index: 2,
-    link: '/tools'
   }
+  // {
+  //   name: 'shuoshuo',
+  //   text: '说说',
+  //   class: 'fas fa-star',
+  //   index: 2,
+  //   link: '/shuoshuo'
+  // },
+  // {
+  //   name: 'suibi',
+  //   text: '随笔',
+  //   class: 'fas fa-broom',
+  //   index: 2,
+  //   link: '/tools'
+  // }
 ]);
 
 function toLink(link: string) {

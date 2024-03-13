@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import headBar from '@/components/headBar.vue';
+import headBar from '@/components/headBar';
 import $ from 'jquery';
 export default {
   name: 'App',
@@ -48,13 +48,13 @@ export default {
     handleScroll() {
       this.routerLink = this.$router.currentRoute.fullPath;
       if (this.routerLink === '/') {
-        if (window.pageYOffset > 0) {
+        if (window.scrollY > 0) {
           this.$refs.headBar.jsHover = true;
         } else {
           this.$refs.headBar.jsHover = false;
         }
       }
-      if (window.pageYOffset > 90) {
+      if (window.scrollY > 90) {
         $('.scroll').css('top', this.scrollTop + 'px');
       } else {
         $('.scroll').css('top', '-920px');
@@ -62,11 +62,11 @@ export default {
     },
     scrollClick() {
       let _this = this;
-      let yOffset = window.pageYOffset;
+      let yOffset = window.scrollY;
       let yLess = 1;
       yLess = yOffset / 50;
       _this.scrollInterval = setInterval(function () {
-        let yOffset = window.pageYOffset;
+        let yOffset = window.scrollY;
         if (yOffset > 1) {
           window.scrollTo(0, yOffset - yLess);
         } else {
@@ -75,11 +75,12 @@ export default {
       }, 10);
     }
   },
-  //创建
+  //创建 初始化下拉条
   created() {
     document.addEventListener('scroll', this.handleScroll, true);
     this.scrollTop = document.documentElement.clientHeight;
-    this.scrollTop = 80 - (this.scrollTop - (947 - 150));
+    this.scrollTop = 80 - (this.scrollTop - 495);
+    console.log(this.scrollTop);
     this.$watch('routerLink', function (newValue, oldValue) {
       if (newValue === '/') {
         window.scrollTo(0, 0);

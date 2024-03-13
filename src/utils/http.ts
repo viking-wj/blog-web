@@ -7,7 +7,7 @@ import axios, {
 import { ElMessage } from 'element-plus';
 
 const http: AxiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:8080/blog',
+  baseURL: 'http://120.77.28.198:8080/blog',
   timeout: 50000
 });
 

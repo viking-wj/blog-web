@@ -6,5 +6,4 @@ import { createPinia } from 'pinia';
 import elementPlus from '@/plugin/element-plus';
 
 const pinia = createPinia();
-
 createApp(App).use(router).use(pinia).use(elementPlus).mount('#app');

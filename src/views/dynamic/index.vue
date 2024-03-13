@@ -15,7 +15,7 @@
           :style="{
             background: 'rgba(' + colors[index % colors.length] + ',1)',
             'box-shadow':
-              ' 0 0 5px rgba(' + colors[index % colors.length] + ',1)',
+              ' 0 0 5px rgba(' + colors[index % colors.length] + ',1)'
           }"
           @mouseenter="
             textEnter(
@@ -46,37 +46,37 @@
 
 <script>
 export default {
-  name: "dynamic",
+  name: 'dynamic',
   data() {
     return {
       content:
         '<p>123</p><h2>123</h2><p>123</p><pre class="ql-syntax" spellcheck="false">：asdfsdfsadfkljskfld\n' +
-        "</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>" +
-        "</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>" +
-        "</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>" +
-        "</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>",
+        '</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>' +
+        '</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>' +
+        '</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>' +
+        '</pre><blockquote>123</blockquote><p>213213123</p><p>87976970</p><p>&lt;a&gt;123&lt;/a&gt;</p>',
       editorOption: {
-        placeholder: "编辑文章内容",
+        placeholder: '编辑文章内容'
       },
       next_blog_img:
-        "https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/10.jpg",
-      next_blog_title: "emmmmmm",
-      colors: ["208,182,213", "139,108,163", "159,198,232", "120,185,176"],
+        'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/10.jpg',
+      next_blog_title: 'emmmmmm',
+      colors: ['208,182,213', '139,108,163', '159,198,232', '120,185,176']
     };
   },
   methods: {
     textEnter(boxShadow, index) {
       // debugger
       console.log(boxShadow);
-      $(".shuoshuo-bar[index=" + index + "]")
-        .find("div.text-bar")
-        .css("box-shadow", boxShadow);
+      $('.shuoshuo-bar[index=' + index + ']')
+        .find('div.text-bar')
+        .css('box-shadow', boxShadow);
     },
     textLeave(boxShadow, index) {
-      $(".shuoshuo-bar[index=" + index + "]")
-        .find("div.text-bar")
-        .css("box-shadow", boxShadow);
-    },
+      $('.shuoshuo-bar[index=' + index + ']')
+        .find('div.text-bar')
+        .css('box-shadow', boxShadow);
+    }
   },
   mounted() {
     window.scrollTo(0, 0);
@@ -84,7 +84,7 @@ export default {
   },
   destroyed() {
     this.$parent.routerLink = this.$router.currentRoute.fullPath;
-  },
+  }
 };
 </script>
 
