@@ -6,7 +6,7 @@
       <div class="article_content">article_content</div>
       <div class="article_statics">
         <div>
-          <el-icon><like /></el-icon>
+          <el-icon><star /></el-icon>
           <span class="statics_number">12</span>
         </div>
         <div>
@@ -33,14 +33,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-// 修复Element Plus图标名称
-import { Star, ChatDotRound, Clock, Like } from '@element-plus/icons-vue'
+// 修复Element Plus图标名称，使用正确的图标
+import { Star, ChatDotRound, Clock } from '@element-plus/icons-vue'
 export default defineComponent({
   components: {
     Star,
     ChatDotRound,
-    Clock,
-    Like
+    Clock
   }
 })
 </script>
