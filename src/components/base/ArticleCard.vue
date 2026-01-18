@@ -6,24 +6,24 @@
       <div class="article_content">article_content</div>
       <div class="article_statics">
         <div>
-          <heart-outlined class="statics_icon" />
+          <el-icon><like /></el-icon>
           <span class="statics_number">12</span>
         </div>
         <div>
-          <star-outlined class="statics_icon" />
+          <el-icon><star /></el-icon>
           <span class="statics_number">12</span>
         </div>
         <div>
-          <comment-outlined class="statics_icon" />
+          <el-icon><chat-dot-round /></el-icon>
           <span class="statics_number">12</span>
         </div>
       </div>
       <div class="article_card_bottom">
         <span class="user_info">
-          <HeadFrame :size="24"></HeadFrame>
+          <el-avatar :size="24"></el-avatar>
         </span>
         <span class="release_time">
-          <history-outlined />
+          <el-icon><clock /></el-icon>
           发布于xxxx年xx月xx时
         </span>
       </div>
@@ -33,15 +33,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import HeadFrame from '../common/HeadFrame.vue'
-import { HeartOutlined, HistoryOutlined, StarOutlined, CommentOutlined } from '@ant-design/icons-vue'
+// 修复Element Plus图标名称
+import { Star, ChatDotRound, Clock, Like } from '@element-plus/icons-vue'
 export default defineComponent({
   components: {
-    HeadFrame,
-    HeartOutlined,
-    HistoryOutlined,
-    StarOutlined,
-    CommentOutlined
+    Star,
+    ChatDotRound,
+    Clock,
+    Like
   }
 })
 </script>
