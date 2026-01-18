@@ -18,36 +18,41 @@
       </div>
       <!--评论内容-->
       <div class="comment-content">
-        <div class="comment-imgs">
-          <div class="c-img-item">
-            <img
-              @click="toImg"
-              src="https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2021/02/2a4e06368d34db198416c67074b79bac.png"
-            />
+        <div class="comment-imgs" v-if="props.comment.images && props.comment.images.length > 0">
+          <div class="c-img-item" v-for="(img, index) in props.comment.images" :key="index">
+            <img @click="toImg" :src="img" />
           </div>
         </div>
         <div class="content-text text-black">
-          <p>
-            {{ props.comment.context }}
-            <span class="emoji-s emoji-inline"
-              ><img
-                src="https://cdn.jsdelivr.net/gh/moezx/cdn@2.9.4/img/bili/guilian.png"
-            /></span>
-          </p>
+          <p>{{ props.comment.context }}</p>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-import { defineProps, onMounted } from 'vue';
-const props = defineProps({
-  comment: Object
-});
-onMounted(() => {
-  console.log(props.comment);
-});
+<script setup lang="ts">
+
+interface CommentUser {
+  avatar: string;
+  name: string;
+}
+
+interface Comment {
+  user: CommentUser;
+  createTime: string;
+  context: string;
+  images?: string[];
+}
+
+const props = defineProps<{
+  comment: Comment;
+}>();
+
+function toImg(e: MouseEvent) {
+  const target = e.currentTarget as HTMLImageElement;
+  window.open(target.src, '_blank');
+}
 </script>
 
 <style lang="scss" scoped>

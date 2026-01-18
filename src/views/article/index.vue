@@ -1,30 +1,21 @@
 <template>
   <div class="blog">
     <div class="background">
-      <img
-        src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/3.png"
-      />
+      <img src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/3.png" />
     </div>
 
     <div class="ql-container ql-snow ql-bar blog-bar">
       <div class="ql-editor" v-html="marked(article.context)"></div>
     </div>
 
-    <div
-      class="next_blog blog-bar"
-      :style="{ background: 'url(' + comment.nextBlogImg + ') no-repeat 100%' }"
-    >
+    <div class="next_blog blog-bar" :style="{ background: 'url(' + comment.nextBlogImg + ') no-repeat 100%' }">
       <span>Previous Post</span>
       <span>{{ comment.nextBlogTitle }}</span>
       <div class="mask"></div>
     </div>
 
     <!-- 文章发布人信息 -->
-    <div
-      class="split-line blog-bar"
-      style="text-align: center"
-      id="blog-creator"
-    >
+    <div class="split-line blog-bar" style="text-align: center" id="blog-creator">
       <div class="user_avatar">
         <img :src="article.author.avatar" />
       </div>
@@ -32,25 +23,15 @@
         <span>{{ article.author.name }}</span>
       </div>
       <span class="signature" style="color: #7d8588"
-        ><i
-          class="fas fa-pencil-alt"
-          style="margin-right: 8px; color: #fe9600"
-        ></i
+        ><i class="fas fa-pencil-alt" style="margin-right: 8px; color: #fe9600"></i
         >{{ article.author.description }}</span
       >
     </div>
-    <!-- 评论模块暂缓 -->
+    <!-- 评论模块 -->
     <transition name="fade-x">
-      <div
-        class="show-comments blog-bar"
-        v-if="comment.showCbtn"
-        @click="showCom"
-      >
+      <div class="show-comments blog-bar" v-if="comment.showCbtn" @click="showCom">
         <div class="line-grey">
-          <span class="text-black">
-            <i class="far fa-comment-dots" style="margin-right: 5px"></i
-            >查看评论 -
-          </span>
+          <span class="text-black"> <i class="far fa-comment-dots" style="margin-right: 5px"></i>查看评论 - </span>
           <span class="text-gray">{{ article.commentCount }}条评论</span>
         </div>
       </div>
@@ -60,175 +41,41 @@
       <div class="blog-bar comments" v-if="comment.showComment">
         <div class="comments-title text-black">
           <span>Comments | </span>
-          <span>5条评论</span>
+          <span>{{ article.commentCount }}条评论</span>
           <span class="text-orange" @click="hideCom">收起评论</span>
         </div>
-        <!-- <div
-          class="comment-bar border-bottom-x"
-          v-for="index of 5"
-          :key="index"
-        >
-          <div class="comment-user-info">
-            <div class="comment-user-avatar">
-              <img
-                src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/avatar.jpg"
-              />
-            </div>
-            <div class="comment-info">
-              <div class="comment-user-nickname">
-                <span class="cu-tag line-pink user-type">博主</span>
-                <span class="text-orange text-bold user-nickname">xiamo</span>
-              </div>
-              <div class="comment-text text-gray">
-                <span>发布于 5 天前 来自: 湖南省株洲市 联通</span>
-              </div>
-            </div>
-          </div>
-          <div class="comment-content">
-            <div class="comment-imgs">
-              <div class="c-img-item">
-                <img
-                  @click="toImg"
-                  src="https://xiamo1024.cn/images/2021/02/07/11468713c6b0.jpg"
-                />
-              </div>
-              <div class="c-img-item">
-                <img
-                  @click="toImg"
-                  src="https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2021/02/2a4e06368d34db198416c67074b79bac.png"
-                />
-              </div>
-              <div class="c-img-item">
-                <img
-                  @click="toImg"
-                  src="https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2021/02/c3d27bf167d0be1b895970e80630bb92-1.jpg"
-                />
-              </div>
-            </div>
-            <div class="content-text text-black">
-              <p>
-                emmm<span class="emoji-s emoji-inline"
-                  ><img
-                    src="https://cdn.jsdelivr.net/gh/moezx/cdn@2.9.4/img/bili/guilian.png" /></span
-                >mmmmmmmmmmmmmmmm emmmmmmmmmmmmmmmm<span
-                  class="emoji-s emoji-inline"
-                  ><img
-                    src="https://cdn.jsdelivr.net/gh/moezx/cdn@2.9.4/img/bili/guilian.png" /></span
-                >mmmmmmmmmmmmmmmm
-              </p>
-            </div>
-          </div>
-        </div> -->
-        <div>
-          <comments
-            v-for="(comment, index) in commentsList"
-            :key="index"
-            :comment="comment"
-          ></comments>
-        </div>
-        <!--评论发布-->
-        <div class="comment-textarea blog-bar">
-          <div class="textarea-blog">
-            <textarea
-              class="area-content"
-              v-model="comment.this"
-              @blur="commentChange()"
-            >
-            </textarea>
-            <div
-              :class="[
-                comment.this != '' ? 'textarea-title-hasv' : 'textarea-title'
-              ]"
-            >
-              <span>
-                {{ comment.title }}
-              </span>
-            </div>
-          </div>
-          <div class="comment-imgs">
-            <transition-group name="fade-x">
-              <div
-                class="c-img-item"
-                v-for="data in comment.commentImg"
-                :key="data.id"
-              >
-                <img @click="toImg" :src="data.url" />
-              </div>
-            </transition-group>
-          </div>
-        </div>
-
-        <div class="blog-bar comment-user">
-          <div class="comment-user-avatar">
-            <img v-if="comment.localfile" :src="comment.localfile" />
-            <img
-              v-else
-              src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/xiamo/avatar/acb96e986eb0ac7e456c3c7f3665a59.jpg"
-            />
-          </div>
-          <div class="comment-user-nickname">
-            <div class="comment-tip">
-              <div class="tip"><span>输入QQ号将自动拉取头像昵称</span></div>
-              <div class="san"></div>
-            </div>
-            <input type="text" placeholder="QQ号(*)" />
-          </div>
-          <div class="comment-user-email">
-            <div class="comment-tip">
-              <div class="tip"><span>你将收到回复通知</span></div>
-              <div class="san"></div>
-            </div>
-            <input type="text" placeholder="邮箱(*)" />
-          </div>
-          <div class="comment-url">
-            <div class="comment-tip">
-              <div class="tip"><span>你的网站</span></div>
-              <div class="san"></div>
-            </div>
-            <input type="text" placeholder="网站" />
-          </div>
-        </div>
-
-        <div class="blog-bar">
-          <div class="biubiubiu">
-            <span>BiuBiuBiu~</span>
-          </div>
-          <div class="uploadimg">
-            <input
-              type="file"
-              id="fileExport"
-              @change="handleFileChange"
-              ref="inputer"
-            />
-            <span><i class="fas fa-image"></i></span>
-          </div>
-        </div>
+        <!-- 评论列表 -->
+        <CommentList :comments-list="commentsList" />
+        <!-- 评论发布 -->
+        <CommentBox @comment-change="commentChange" @file-change="handleFileChange" @submit="handleCommentSubmit" />
       </div>
     </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useRoute } from 'vue-router';
-import { ref, reactive, onMounted, onUnmounted } from 'vue';
-import { searchArticleDetail } from '@/api/article';
-import { marked } from 'marked';
-import { markedHighlight } from 'marked-highlight';
-import hljs from 'highlight.js';
-import 'highlight.js/styles/base16/darcula.css';
-import comments from '@/components/comments.vue';
-import { ElNotification } from 'element-plus';
+import { useRoute } from 'vue-router'
+import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { searchArticleDetail } from '@/api/article'
+import { marked } from 'marked'
+import { markedHighlight } from 'marked-highlight'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/base16/darcula.css'
+import comments from '@/components/comments.vue'
+import CommentList from '@/components/common/CommentList.vue'
+import CommentBox from '@/components/common/CommentBox.vue'
+import { ElNotification } from 'element-plus'
 
 // 高亮拓展
 marked.use(
   markedHighlight({
     langPrefix: 'hljs language-',
     highlight(code, lang) {
-      const language = hljs.getLanguage(lang) ? lang : 'shell';
-      return hljs.highlight(code, { language }).value;
+      const language = hljs.getLanguage(lang) ? lang : 'shell'
+      return hljs.highlight(code, { language }).value
     }
   })
-);
+)
 
 let comment = reactive({
   title: '你是我一生只会遇见一次的惊喜 ...',
@@ -243,13 +90,12 @@ let comment = reactive({
   editorOption: {
     placeholder: '编辑文章内容'
   },
-  nextBlogImg:
-    'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/10.jpg',
+  nextBlogImg: 'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/10.jpg',
   nextBlogTitle: 'emmmmmm',
   file: null,
   localfile: '',
   commentImg: [] as any
-});
+})
 
 let article = ref({
   id: '',
@@ -266,91 +112,76 @@ let article = ref({
   sourceLink: '',
   releaseTime: '',
   commentCount: ''
-});
+})
 
-let commentsList = ref([]);
+let commentsList = ref([])
 
 onMounted(() => {
-  const { params } = useRoute();
-  window.scrollTo(0, 0);
+  const { params } = useRoute()
+  window.scrollTo(0, 0)
   // this.$parent.$refs.headbar.jsHover = true;
-  loadArticle(params.id[0]);
-});
+  loadArticle(params.id[0])
+})
 
 onUnmounted(() => {
   // this.$parent.routerLink = this.$router.currentRoute.fullPath;
-});
+})
 
 function loadArticle(articleId: string) {
   searchArticleDetail(articleId).then(({ data: data }) => {
-    article.value = data;
-    commentsList.value = data.comments;
-  });
+    article.value = data
+    commentsList.value = data.comments
+  })
 }
-marked.use();
+marked.use()
 // 图片上传
-async function handleFileChange(e: any) {
-  console.log('upload pic');
+async function handleFileChange(files: FileList) {
+  console.log('upload pic', files)
+  // 这里可以添加图片上传到服务器的逻辑
 }
 
-function commentChange() {
-  console.log('commentChange');
+function commentChange(text: string) {
+  console.log('commentChange', text)
+}
+
+// 处理评论提交
+function handleCommentSubmit(data: any) {
+  console.log('submit comment', data)
+  // 这里可以添加评论提交到服务器的逻辑
+  ElNotification({
+    title: '消息',
+    message: '评论提交成功!',
+    position: 'bottom-right'
+  })
 }
 
 function showCom() {
-  ElNotification({
-    title: '消息',
-    message: '敬请期待!',
-    position: 'bottom-right'
-  });
-  comment.showComment = false;
-  comment.showCbtn = true;
-  // // let yOffset = document.documentElement.scrollTop;
-  // let creator: any = document.getElementById('blog-creator');
-  // let scrollto = creator.offsetTop - 100;
-  // let scrollInterval = setInterval(function () {
-  //   let yOffset2 = document.documentElement.scrollTop;
-  //   if (yOffset2 < scrollto) {
-  //     window.scrollTo(0, yOffset2 + 10);
-  //   } else {
-  //     clearInterval(scrollInterval);
-  //   }
-  // }, 10);
+  // ElNotification({
+  //   title: '消息',
+  //   message: '敬请期待!',
+  //   position: 'bottom-right'
+  // })
+  comment.showComment = true
+  comment.showCbtn = true
 }
 
 function hideCom() {
-  comment.showCbtn = true;
-  comment.showComment = false;
-  let creator: any = document.getElementById('blog-creator');
-  let scrollto = creator.offsetTop - 500;
-  let yOffset = document.documentElement.scrollTop;
-  let yLess = 1;
-  yLess = (yOffset - scrollto) / 40;
-  let scrollInterval = setInterval(function () {
-    let yOffset2 = document.documentElement.scrollTop;
-    if (yOffset2 - scrollto > 1) {
-      window.scrollTo(0, yOffset2 - yLess);
-    } else {
-      clearInterval(scrollInterval);
-    }
-  }, 10);
+  comment.showCbtn = true
+  comment.showComment = false
 }
 
 function Toggle(e: any) {
-  var anmiaton = e.currentTarget.dataset.class;
-  console.log(anmiaton);
+  var anmiaton = e.currentTarget.dataset.class
+  console.log(anmiaton)
   // this.animation = anmiaton;
   // 定时清空动画
   setTimeout(() => {
     // this.animation = '';
-  }, 1000);
-}
-function toImg(e: any) {
-  window.open(e.currentTarget.src, '_blank');
+  }, 1000)
 }
 function onEditorChange({ editor, html, text }: any) {
-  comment.content = html;
-  console.log(html);
+  comment.content = html
+  console.log(html)
 }
 </script>
 
