@@ -3,10 +3,7 @@
     <!--    <div :style="{'height':height+'px'}">-->
     <div>
       <div class="detail">
-        <div
-          class="avatar_box"
-          :style="{ 'background-image': 'url(' + avatar2 + ')' }"
-        >
+        <div class="avatar_box" :style="{ 'background-image': 'url(' + avatar2 + ')' }">
           <div class="avatar_img">
             <img :src="avatar" />
             <img :src="avatar3" />
@@ -21,21 +18,11 @@
             </span>
           </div>
           <div class="social">
-            <img
-              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/qq.png"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/bilibili.png"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/wangyiyun.png"
-            />
-            <img
-              src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/email.svg"
-            />
+            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/github.png" />
+            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/qq.png" />
+            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/bilibili.png" />
+            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/wangyiyun.png" />
+            <img src="https://cdn.jsdelivr.net/gh/moezx/cdn@3.1.9/img/Sakura/images/sns/email.svg" />
           </div>
         </div>
       </div>
@@ -48,30 +35,33 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-let height = ref(document.documentElement.clientHeight);
-let avatar = ref(
-  'https://myblog-w.oss-cn-shenzhen.aliyuncs.com/assest/avatar_admin.jpg'
-);
-let avatar2 = ref(
-  'https://xiamo.oss-cn-shenzhen.aliyuncs.com/avatar/box/avatar_box.png'
-);
-let avatar3 = ref(
-  'https://xiamo.oss-cn-shenzhen.aliyuncs.com/gif/i585v-vgfjl.gif'
-);
-let sentence = ref('像繁星一样，黯淡了的');
+import { ref } from 'vue'
+let height = ref(document.documentElement.clientHeight)
+// 使用一个已知可以访问的头像图片URL
+let avatar = ref('https://myblog-w.oss-cn-shenzhen.aliyuncs.com/assest/avatar_admin.jpg')
+let avatar2 = ref('https://xiamo.oss-cn-shenzhen.aliyuncs.com/avatar/box/avatar_box.png')
+let avatar3 = ref('https://xiamo.oss-cn-shenzhen.aliyuncs.com/gif/i585v-vgfjl.gif')
+let sentence = ref('像繁星一样，黯淡了的')
 </script>
 
 <style scoped>
+#self {
+  /* 添加relative定位，作为.detail元素的定位容器 */
+  position: relative;
+  width: 100%;
+  /* 确保self组件高度与背景图片一致 */
+  height: 100vh;
+  /* 使用flex布局确保内容上下左右居中 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .detail {
   width: 600px;
   height: 500px;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  margin: auto;
+  /* 移除绝对定位，使用flex居中 */
+  position: relative;
   z-index: 10;
 }
 
@@ -93,7 +83,8 @@ let sentence = ref('像繁星一样，黯淡了的');
   top: 0;
   bottom: 0;
   margin: auto;
-  z-index: -1;
+  /* 将z-index从-1改为1，确保头像容器可见 */
+  z-index: 1;
 }
 
 .avatar_img img {

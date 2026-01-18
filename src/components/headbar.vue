@@ -2,18 +2,12 @@
   <div class="headBar" :class="[isTools ? 'dark' : '']">
     <div :class="['top', jsHover ? 'topJsHover' : '']">
       <div class="img_div">
-        <img
-          src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/star.png"
-        />
+        <img src="https://xiamo.oss-cn-shenzhen.aliyuncs.com/gitee-mashiro/star.png" />
       </div>
       <div class="title" @click="toLink('/')"><span>W</span></div>
       <div :class="['menu', jsHover ? 'menuHover' : '']">
         <div class="item" v-for="(data, index) in menu" :key="index">
-          <div
-            :class="['item_font', data.name]"
-            @mouseenter="itemHover(data.name)"
-            @mouseleave="itemLeave(data.name)"
-          >
+          <div :class="['item_font', data.name]" @mouseenter="itemHover(data.name)" @mouseleave="itemLeave(data.name)">
             <div @click="toLink(data.link)">
               <i :class="[data.class]"></i>
               <span>{{ data.text }}</span>
@@ -27,13 +21,12 @@
 </template>
 
 <script lang="ts" setup>
-import router from '@/router';
-import { ref, reactive, defineEmits } from 'vue';
-import $ from 'jquery';
+import router from '@/router'
+import { ref, reactive } from 'vue'
 
-const emit = defineEmits(['showSakura']);
-let isTools = ref(false);
-let jsHover = ref(false);
+const emit = defineEmits(['showSakura'])
+let isTools = ref(false)
+let jsHover = ref(false)
 let menu = reactive([
   {
     name: 'main',
@@ -56,33 +49,49 @@ let menu = reactive([
   //   index: 2,
   //   link: '/tools'
   // }
-]);
+])
 
 function toLink(link: string) {
   if (link == '/tools') {
-    emit('showSakura', false);
-    isTools.value = true;
+    emit('showSakura', false)
+    isTools.value = true
   } else {
-    emit('showSakura', true);
-    isTools.value = false;
+    emit('showSakura', true)
+    isTools.value = false
   }
-  router.push(link);
+  router.push(link)
 }
 
 function itemHover(name: string) {
-  $('.' + name + '>.item_font_strip').css('width', '100%');
-  $('.' + name).css('color', '#fe9600');
+  // 使用原生JavaScript替代jQuery
+  const itemStrip = document.querySelector(`.${name}>.item_font_strip`) as HTMLElement
+  const itemFont = document.querySelector(`.${name}`) as HTMLElement
+
+  if (itemStrip) {
+    itemStrip.style.width = '100%'
+  }
+  if (itemFont) {
+    itemFont.style.color = '#fe9600'
+  }
 }
 
 function itemLeave(name: string) {
-  $('.' + name + '>.item_font_strip').css('width', '0%');
-  $('.' + name).css('color', 'unset');
+  // 使用原生JavaScript替代jQuery
+  const itemStrip = document.querySelector(`.${name}>.item_font_strip`) as HTMLElement
+  const itemFont = document.querySelector(`.${name}`) as HTMLElement
+
+  if (itemStrip) {
+    itemStrip.style.width = '0%'
+  }
+  if (itemFont) {
+    itemFont.style.color = 'unset'
+  }
 }
 
 defineExpose({
   isTools,
   jsHover
-});
+})
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

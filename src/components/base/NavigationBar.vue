@@ -2,60 +2,51 @@
   <div class="bar_body">
     <div class="web_logo"></div>
     <div class="navigation">
-      <a-menu v-model:selectedKeys="current" mode="horizontal">
-        <a-menu-item key="mail">
+      <el-menu v-model="current" mode="horizontal">
+        <el-menu-item index="mail">
           <template #icon>
-            <mail-outlined />
+            <el-icon><message /></el-icon>
           </template>
           Navigation One
-        </a-menu-item>
-        <a-menu-item key="app">
+        </el-menu-item>
+        <el-menu-item index="app">
           <template #icon>
-            <appstore-outlined />
+            <el-icon><app /></el-icon>
           </template>
           Navigation Two
-        </a-menu-item>
-        <a-sub-menu key="sub1">
-          <template #icon>
-            <setting-outlined />
+        </el-menu-item>
+        <el-sub-menu index="sub1">
+          <template #title>
+            <el-icon><setting /></el-icon>
+            <span>Navigation Three - Submenu</span>
           </template>
-          <template #title>Navigation Three - Submenu</template>
-          <a-menu-item-group title="Item 1">
-            <a-menu-item key="setting:1">Option 1</a-menu-item>
-            <a-menu-item key="setting:2">Option 2</a-menu-item>
-          </a-menu-item-group>
-          <a-menu-item-group title="Item 2">
-            <a-menu-item key="setting:3">Option 3</a-menu-item>
-            <a-menu-item key="setting:4">Option 4</a-menu-item>
-          </a-menu-item-group>
-        </a-sub-menu>
-        <a-menu-item key="alipay">
+          <el-menu-item index="setting:1">Option 1</el-menu-item>
+          <el-menu-item index="setting:2">Option 2</el-menu-item>
+          <el-menu-item index="setting:3">Option 3</el-menu-item>
+          <el-menu-item index="setting:4">Option 4</el-menu-item>
+        </el-sub-menu>
+        <el-menu-item index="alipay">
           <a href="#" rel="noopener noreferrer"> Navigation Four - Link </a>
-        </a-menu-item>
-      </a-menu>
+        </el-menu-item>
+      </el-menu>
     </div>
     <div class="use_info">
-      <HeadFrame :size="52"></HeadFrame>
+      <el-avatar :size="52"></el-avatar>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { MailOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons-vue'
-import { Menu } from 'ant-design-vue'
-import HeadFrame from '@/components/common/HeadFrame.vue'
+import { Message, Menu as App, Setting } from '@element-plus/icons-vue'
+
 export default defineComponent({
   components: {
-    MailOutlined,
-    AppstoreOutlined,
-    SettingOutlined,
-    HeadFrame,
-    'a-menu': Menu,
-    'a-menu-item': Menu.Item,
-    'a-sub-menu': Menu.SubMenu
+    Message,
+    App,
+    Setting
   },
   setup() {
-    const current = ref<string[]>(['mail'])
+    const current = ref('mail')
     return {
       current
     }
@@ -73,10 +64,10 @@ export default defineComponent({
   width: 50%;
   margin: 0 auto;
 }
-.navigation :deep() .ant-menu-horizontal {
+.navigation :deep() .el-menu {
   border-bottom: none;
 }
-.use_info{
+.use_info {
   display: none;
   float: right;
 }

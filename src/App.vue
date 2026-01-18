@@ -1,22 +1,16 @@
 <template>
   <div id="app">
-    <a @click="scrollClick"
-      ><img class="scroll" src="../static/image/scroll.png"
-    /></a>
+    <a @click="scrollClick"><img class="scroll" src="../static/image/scroll.png" /></a>
     <headBar ref="headBar" @showSakura="showSakura"></headBar>
     <transition name="fade">
-      <router-view
-        class="routerBar"
-        @changeHeadCss="changeHeadCss"
-        @showSakura="showSakura"
-      ></router-view>
+      <router-view class="routerBar" @changeHeadCss="changeHeadCss" @showSakura="showSakura"></router-view>
     </transition>
   </div>
 </template>
 
 <script>
-import headBar from '@/components/headBar';
-import $ from 'jquery';
+import headBar from '@/components/headbar.vue'
+
 export default {
   name: 'App',
   data() {
@@ -24,74 +18,81 @@ export default {
       scrollInterval: '',
       scrollTop: 0,
       routerLink: ''
-    };
+    }
   },
   components: {
     headBar
   },
   methods: {
     showSakura(is) {
-      this.$nextTick(function () {
-        // let canvas_sakura = document.getElementById('canvas_sakura')
-        // console.log(canvas_sakura)
-        // if (is){
-        //   canvas_sakura.style.display = "block"
-        // }else{
-        //   canvas_sakura.style.display = "none"
-        // }
-      });
+      // 樱花效果功能待实现
     },
     changeHeadCss() {
       // console.log("%c修改头部css", "color:red")
-      this.$refs.headBar.isTools = true;
+      this.$refs.headBar.isTools = true
     },
     handleScroll() {
-      this.routerLink = this.$router.currentRoute.fullPath;
+      this.routerLink = this.$router.currentRoute.fullPath
       if (this.routerLink === '/') {
         if (window.scrollY > 0) {
-          this.$refs.headBar.jsHover = true;
+          this.$refs.headBar.jsHover = true
         } else {
-          this.$refs.headBar.jsHover = false;
+          this.$refs.headBar.jsHover = false
         }
       }
-      if (window.scrollY > 90) {
-        $('.scroll').css('top', this.scrollTop + 'px');
-      } else {
-        $('.scroll').css('top', '-920px');
+      const scrollElement = document.querySelector('.scroll')
+      if (scrollElement) {
+        if (window.scrollY > 90) {
+          scrollElement.style.top = this.scrollTop + 'px'
+        } else {
+          scrollElement.style.top = '-920px'
+        }
       }
     },
     scrollClick() {
-      let _this = this;
-      let yOffset = window.scrollY;
-      let yLess = 1;
-      yLess = yOffset / 50;
-      _this.scrollInterval = setInterval(function () {
-        let yOffset = window.scrollY;
-        if (yOffset > 1) {
-          window.scrollTo(0, yOffset - yLess);
+      const start = window.scrollY
+      const duration = 500 // 滚动持续时间（毫秒）
+      let startTime = null
+
+      const animateScroll = (currentTime) => {
+        if (!startTime) startTime = currentTime
+        const progress = Math.min((currentTime - startTime) / duration, 1)
+        // 使用缓动函数，使滚动更自然
+        const easeProgress = 1 - Math.pow(1 - progress, 3)
+        const newScroll = start - start * easeProgress
+
+        if (newScroll > 1) {
+          window.scrollTo(0, newScroll)
+          requestAnimationFrame(animateScroll)
         } else {
-          clearInterval(_this.scrollInterval);
+          window.scrollTo(0, 0)
         }
-      }, 10);
+      }
+
+      requestAnimationFrame(animateScroll)
     }
   },
   //创建 初始化下拉条
   created() {
-    document.addEventListener('scroll', this.handleScroll, true);
-    this.scrollTop = document.documentElement.clientHeight;
-    this.scrollTop = 80 - (this.scrollTop - 495);
-    console.log(this.scrollTop);
+    document.addEventListener('scroll', this.handleScroll, true)
+    this.scrollTop = document.documentElement.clientHeight
+    this.scrollTop = 80 - (this.scrollTop - 495)
+    console.log(this.scrollTop)
     this.$watch('routerLink', function (newValue, oldValue) {
       if (newValue === '/') {
-        window.scrollTo(0, 0);
+        window.scrollTo(0, 0)
       }
-    });
+    })
   },
   //加载完毕
   mounted() {
-    this.handleScroll();
+    this.handleScroll()
+  },
+  //组件销毁前移除事件监听器，防止内存泄漏
+  beforeUnmount() {
+    document.removeEventListener('scroll', this.handleScroll, true)
   }
-};
+}
 </script>
 
 <style>
@@ -99,6 +100,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  /* 添加position: relative，确保router-view相对于app元素定位 */
+  position: relative;
 }
 
 .headBar {
