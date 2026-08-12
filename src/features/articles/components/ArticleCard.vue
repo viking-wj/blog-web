@@ -12,7 +12,6 @@
       />
       <span v-else class="article-card__placeholder" aria-hidden="true">W</span>
     </RouterLink>
-
     <div class="card__body article-card__body">
       <div class="card__meta">
         <time :datetime="article.publishedAt">{{ formatDate(article.publishedAt) }}</time>
@@ -25,78 +24,58 @@
       <div class="article-card__footer">
         <span>{{ article.author.name }}</span>
         <RouterLink class="article-card__read" :to="articleUrl">
-          阅读全文
-          <span aria-hidden="true">→</span>
+          阅读全文 <span aria-hidden="true">&nearr;</span>
         </RouterLink>
       </div>
     </div>
   </article>
 </template>
-
 <script setup lang="ts">
 import { computed } from 'vue'
 import { formatDate, plainTextExcerpt } from '@/shared/lib/format'
 import type { ArticleSummary } from '../model/types'
 
-const props = defineProps<{
-  article: ArticleSummary
-}>()
-
+const props = defineProps<{ article: ArticleSummary }>()
 const articleUrl = computed(() => `/article/${encodeURIComponent(props.article.id)}`)
 const excerpt = computed(() => plainTextExcerpt(props.article.excerpt) || '这篇文章暂时没有摘要。')
 </script>
-
 <style scoped>
 .article-card {
   display: grid;
-  grid-template-columns: minmax(17rem, 42%) 1fr;
-  min-height: 18rem;
+  grid-template-columns: minmax(16rem, 38%) 1fr;
+  min-height: 19rem;
 }
-
 .article-card__media {
   min-height: 100%;
   overflow: hidden;
-  background: linear-gradient(135deg, var(--color-primary-soft), #ffe2b8);
+  background: linear-gradient(135deg, var(--acid), #d6e7da);
 }
-
 .article-card__media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform var(--transition-base);
 }
-
-.article-card:hover .article-card__media img {
-  transform: scale(1.025);
+.article-card:hover img {
+  transform: scale(1.035);
 }
-
 .article-card__placeholder {
   display: grid;
   height: 100%;
   min-height: 16rem;
   place-items: center;
-  color: rgb(254 150 0 / 42%);
+  color: color-mix(in srgb, var(--ink) 24%, transparent);
   font-size: 5rem;
   font-weight: 800;
 }
-
 .article-card__body {
   display: flex;
   flex-direction: column;
 }
-
-.card__title {
-  margin-top: var(--space-4);
-}
-
-.card__title a {
-  color: inherit;
-}
-
 .article-card__body > p {
-  color: var(--color-text-secondary);
+  color: var(--ink-soft);
+  font-size: 1.02rem;
 }
-
 .article-card__footer {
   display: flex;
   align-items: center;
@@ -106,25 +85,18 @@ const excerpt = computed(() => plainTextExcerpt(props.article.excerpt) || '这�
   padding-top: var(--space-5);
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid var(--line);
 }
-
 .article-card__read {
-  display: inline-flex;
-  min-height: 2.75rem;
-  align-items: center;
-  gap: var(--space-2);
-  font-weight: 700;
+  font-weight: 800;
 }
-
-@media (max-width: 47.99rem) {
+@media (max-width: 48rem) {
   .article-card {
     grid-template-columns: 1fr;
   }
-
   .article-card__media {
     min-height: 13rem;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16/9;
   }
 }
 </style>

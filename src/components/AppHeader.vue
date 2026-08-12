@@ -3,119 +3,80 @@
     <a class="skip-link" href="#main-content">跳到主要内容</a>
     <div class="site-header__inner container">
       <RouterLink class="brand" to="/" aria-label="W 的小站首页">
-        <span class="brand__mark" aria-hidden="true">W</span>
-        <span class="brand__text">W 的小站</span>
+        <span class="brand__mark" aria-hidden="true">W.</span>
+        <span>W 的小站</span>
       </RouterLink>
-
       <nav aria-label="主导航">
-        <RouterLink class="nav-link" to="/">
-          <svg aria-hidden="true" viewBox="0 0 24 24">
-            <path d="m3 11 9-8 9 8v9a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z" />
-          </svg>
-          首页
-        </RouterLink>
+        <RouterLink class="nav-link" to="/">文章 <span aria-hidden="true">&nearr;</span></RouterLink>
       </nav>
     </div>
   </header>
 </template>
-
 <script setup lang="ts">
-defineProps<{
-  solid: boolean
-}>()
+defineProps<{ solid: boolean }>()
 </script>
-
 <style scoped>
 .site-header {
-  position: fixed;
+  position: sticky;
   z-index: var(--layer-header);
   top: 0;
-  right: 0;
-  left: 0;
-  color: #fff;
-  background: transparent;
-  transition: color var(--transition-base), background var(--transition-base), box-shadow var(--transition-base);
+  color: var(--ink);
+  background: color-mix(in srgb, var(--paper) 84%, transparent);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition-base), background var(--transition-base);
 }
-
 .site-header--solid,
 .site-header:focus-within {
-  color: var(--color-text);
-  background: rgb(255 255 255 / 92%);
-  box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(12px);
+  background: color-mix(in srgb, var(--paper) 96%, transparent);
+  border-color: var(--line);
 }
-
 .site-header__inner {
   display: flex;
   min-height: var(--header-height);
   align-items: center;
   justify-content: space-between;
 }
-
 .brand,
 .nav-link {
   display: inline-flex;
   min-height: 2.75rem;
   align-items: center;
-  color: inherit;
-  font-weight: 700;
+  font-weight: 800;
 }
-
 .brand {
   gap: var(--space-3);
-  font-size: var(--font-size-lg);
+  letter-spacing: -0.03em;
 }
-
 .brand__mark {
   display: grid;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   place-items: center;
-  color: #fff;
-  background: var(--color-primary);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 4px 12px rgb(254 150 0 / 28%);
+  background: var(--acid);
+  border-radius: 0.85rem;
+  font-family: var(--font-family-display);
+  font-size: 1.2rem;
 }
-
 .nav-link {
-  gap: var(--space-2);
-  padding-inline: var(--space-3);
-  border-radius: var(--radius-md);
+  gap: 0.5rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-pill);
+  transition: background var(--transition-fast);
 }
-
 .nav-link:hover,
 .nav-link.router-link-exact-active {
-  color: var(--color-primary);
-  background: var(--color-primary-soft);
+  background: var(--acid);
 }
-
-.nav-link svg {
-  width: 1.1rem;
-  fill: none;
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 1.8;
-}
-
 .skip-link {
   position: absolute;
   top: -4rem;
-  left: var(--space-4);
-  z-index: var(--layer-overlay);
-  padding: var(--space-3) var(--space-4);
-  color: #fff;
-  background: var(--color-primary-active);
+  left: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--acid);
   border-radius: var(--radius-md);
 }
-
 .skip-link:focus {
-  top: var(--space-3);
-}
-
-@media (max-width: 47.99rem) {
-  .brand__text {
-    display: none;
-  }
+  top: 0.75rem;
 }
 </style>

@@ -3,33 +3,31 @@
     <section class="hero" aria-labelledby="hero-title">
       <div class="hero__backdrop" aria-hidden="true"></div>
       <div class="container hero__content">
-        <span class="hero__eyebrow">WELCOME TO MY BLOG</span>
-        <h1 id="hero-title">记录思考，也记录生活</h1>
-        <p>在这里分享开发实践、踩坑经验与日常灵感。愿每一次阅读，都能带来一点新的启发。</p>
-        <a class="button button--primary hero__action" href="#latest-articles">开始阅读</a>
+        <span class="hero__eyebrow">SELECTED NOTES · 2026</span>
+        <h1 id="hero-title">记录值得保留的想法，<em>也记录想再次读起的故事。</em></h1>
+        <p>分享开发实践、生活片段与沿途好奇。这里是一处留给认真阅读的安静角落。</p>
+        <t-button class="hero__action" theme="primary" size="large" href="#latest-articles">
+          开始阅读 <span aria-hidden="true">&darr;</span>
+        </t-button>
       </div>
     </section>
-
     <section id="latest-articles" class="page-shell" aria-labelledby="latest-title">
       <div class="container stack">
         <header class="section-heading">
           <div>
-            <span class="section-heading__eyebrow">LATEST WRITING</span>
+            <span class="section-heading__eyebrow">THE READING ROOM</span>
             <h2 id="latest-title">最新文章</h2>
           </div>
-          <p>持续整理值得记录的技术与生活片段。</p>
+          <p>持续整理值得记录的技术实践与生活片段。</p>
         </header>
-
-        <AppState v-if="loading" kind="loading" title="正在加载文章" message="请稍候，内容马上就来。" />
-        <AppState
+        <AppState v-if="loading" kind="loading" title="正在加载文章" message="请稍候，内容马上就来。" /><AppState
           v-else-if="error"
           kind="error"
           title="文章加载失败"
           :message="error"
           action-label="重新加载"
           @action="load"
-        />
-        <AppState
+        /><AppState
           v-else-if="!articles.length"
           kind="empty"
           title="暂时没有文章"
@@ -44,69 +42,69 @@
     </section>
   </main>
 </template>
-
 <script setup lang="ts">
 import AppState from '@/components/AppState.vue'
 import ArticleCard from '@/features/articles/components/ArticleCard.vue'
 import { useArticleList } from '@/features/articles/composables/useArticleList'
+import { Button as TButton } from 'tdesign-vue-next'
 
 const { articles, loading, error, load } = useArticleList()
 </script>
-
 <style scoped>
 .hero {
   position: relative;
   display: grid;
-  min-height: max(40rem, 100svh);
+  min-height: min(48rem, calc(100svh - var(--header-height)));
   place-items: center;
   overflow: hidden;
-  color: #fff;
-  background: linear-gradient(120deg, rgb(15 23 42 / 78%), rgb(46 28 8 / 48%)),
-    url('../../../static/image/10.jpg') center / cover no-repeat;
+  color: var(--ink);
+  background: linear-gradient(
+      120deg,
+      color-mix(in srgb, var(--acid) 16%, var(--paper)),
+      color-mix(in srgb, var(--paper) 72%, transparent)
+    ),
+    url('../../../static/image/10.jpg') center/cover no-repeat;
 }
-
 .hero__backdrop {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 75% 25%, rgb(254 150 0 / 22%), transparent 32%),
-    linear-gradient(to top, rgb(16 24 40 / 28%), transparent 45%);
+  background: radial-gradient(circle at 76% 18%, color-mix(in srgb, var(--acid) 36%, transparent), transparent 18%),
+    linear-gradient(90deg, transparent 45%, color-mix(in srgb, var(--ink) 7%, transparent) 45%);
 }
-
 .hero__content {
   position: relative;
-  max-width: 52rem;
-  padding-block: calc(var(--header-height) + var(--space-12)) var(--space-16);
-  text-align: center;
+  max-width: 68rem;
+  padding-block: var(--space-12);
+  text-align: left;
 }
-
 .hero__eyebrow,
 .section-heading__eyebrow {
-  color: var(--color-primary);
+  color: var(--ink);
   font-size: var(--font-size-xs);
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 0.16em;
 }
-
 .hero h1 {
-  max-width: 14ch;
-  margin: var(--space-5) auto var(--space-6);
-  color: #fff;
-  font-size: clamp(2.5rem, 8vw, 5rem);
-  letter-spacing: -0.04em;
+  max-width: 12ch;
+  margin: var(--space-5) 0 var(--space-6);
+  font-family: var(--font-family-display);
+  font-size: clamp(3.2rem, 8vw, 6.6rem);
+  letter-spacing: -0.06em;
   text-wrap: balance;
 }
-
+.hero h1 em {
+  color: var(--coral);
+  font-style: normal;
+}
 .hero p {
-  max-width: 42rem;
-  margin: 0 auto var(--space-8);
-  color: rgb(255 255 255 / 84%);
+  max-width: 34rem;
+  margin: 0 0 var(--space-8);
+  color: var(--ink-soft);
   font-size: clamp(1rem, 2vw, 1.15rem);
 }
-
 .hero__action {
-  min-width: 9rem;
+  min-width: 10rem;
 }
-
 .section-heading {
   display: flex;
   align-items: end;
@@ -114,35 +112,31 @@ const { articles, loading, error, load } = useArticleList()
   gap: var(--space-8);
   margin-bottom: var(--space-4);
 }
-
 .section-heading h2 {
   margin: var(--space-2) 0 0;
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-family: var(--font-family-display);
+  font-size: clamp(2.25rem, 4vw, 3.6rem);
+  letter-spacing: -0.045em;
 }
-
 .section-heading p {
   max-width: 24rem;
   margin: 0;
-  color: var(--color-text-secondary);
+  color: var(--ink-soft);
   text-align: right;
 }
-
 .article-list {
   display: grid;
   gap: var(--space-8);
 }
-
-@media (max-width: 47.99rem) {
+@media (max-width: 48rem) {
   .hero {
-    min-height: 100svh;
+    min-height: calc(100svh - var(--header-height));
   }
-
   .section-heading {
     align-items: start;
     flex-direction: column;
     gap: var(--space-3);
   }
-
   .section-heading p {
     text-align: left;
   }

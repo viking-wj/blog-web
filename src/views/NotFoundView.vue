@@ -23,7 +23,7 @@ const router = useRouter()
 .not-found {
   display: grid;
   min-height: calc(100vh - 7rem);
-  padding-top: calc(var(--header-height) + var(--space-12));
+  padding-top: var(--space-12);
   place-items: center;
 }
 </style>

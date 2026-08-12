@@ -142,7 +142,7 @@ function submitComment(draft: CommentDraft): void {
 }
 
 .article-page__header-spacer {
-  height: calc(var(--header-height) + var(--space-12));
+  height: var(--space-12);
 }
 
 .article-page__content {

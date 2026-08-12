@@ -11,14 +11,14 @@
       </svg>
       <h2>{{ title }}</h2>
       <p>{{ message }}</p>
-      <button v-if="actionLabel" class="button button--primary" type="button" @click="$emit('action')">
-        {{ actionLabel }}
-      </button>
+      <t-button v-if="actionLabel" theme="primary" type="button" @click="$emit('action')">{{ actionLabel }}</t-button>
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import { Button as TButton } from 'tdesign-vue-next'
+
 defineProps<{
   kind: 'loading' | 'empty' | 'error'
   title: string
@@ -43,7 +43,7 @@ defineEmits<{
 .spinner {
   width: 2rem;
   height: 2rem;
-  color: var(--color-primary);
+  color: var(--coral);
 }
 
 .state-panel svg {
@@ -64,8 +64,8 @@ defineEmits<{
 }
 
 .spinner {
-  border: 3px solid var(--color-primary-soft);
-  border-top-color: var(--color-primary);
+  border: 3px solid var(--mist);
+  border-top-color: var(--coral);
   border-radius: 50%;
   animation: spin 700ms linear infinite;
 }
