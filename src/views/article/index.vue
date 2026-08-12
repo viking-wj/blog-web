@@ -77,6 +77,7 @@ import { useArticleDetail } from '@/features/articles/composables/useArticleDeta
 import { formatDate } from '@/shared/lib/format'
 import { renderMarkdown } from '@/shared/lib/markdown'
 import { env } from '@/shared/config/env'
+import { updateSeo } from '@/shared/lib/seo'
 import 'highlight.js/styles/github-dark.css'
 
 const route = useRoute()
@@ -103,9 +104,16 @@ watch(articleId, () => {
 watch(article, (currentArticle) => {
   if (!currentArticle) return
 
-  document.title = `${currentArticle.title} · ${env.appTitle}`
-  const description = document.querySelector<HTMLMetaElement>('meta[name="description"]')
-  if (description) description.content = currentArticle.excerpt || `阅读《${currentArticle.title}》。`
+  updateSeo(
+    {
+      title: currentArticle.title,
+      description: currentArticle.excerpt || `阅读《${currentArticle.title}》。`,
+      path: route.fullPath,
+      imageUrl: currentArticle.thumbnailUrl,
+      type: 'article'
+    },
+    env
+  )
 })
 
 onBeforeUnmount(releaseLocalImages)

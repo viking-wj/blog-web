@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# 部署时请将域名替换为真实站点地址，并生成包含全部文章的 sitemap.xml。

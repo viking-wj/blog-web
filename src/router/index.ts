@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
 import { env } from '@/shared/config/env'
+import { updateSeo } from '@/shared/lib/seo'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -47,10 +48,14 @@ const router = createRouter({
 })
 
 router.afterEach((to) => {
-  document.title = `${to.meta.title} · ${env.appTitle}`
-
-  const description = document.querySelector<HTMLMetaElement>('meta[name="description"]')
-  if (description) description.content = to.meta.description || '记录开发实践、生活片段与持续成长。'
+  updateSeo(
+    {
+      title: to.meta.title,
+      description: to.meta.description || '记录开发实践、生活片段与持续成长。',
+      path: to.fullPath
+    },
+    env
+  )
 
   window.requestAnimationFrame(() =>
     document.querySelector<HTMLElement>('#main-content')?.focus({ preventScroll: true })
