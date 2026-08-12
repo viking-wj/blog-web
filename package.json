@@ -8,8 +8,9 @@
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint src --ext .ts,.vue --max-warnings=0",
     "format": "prettier --write \"src/**/*.{ts,vue,css}\" \"*.{json,ts,html}\"",
-    "test": "vitest run --environment jsdom",
-    "test:watch": "vitest --environment jsdom",
+    "test": "vitest run src --environment jsdom",
+    "test:watch": "vitest src --environment jsdom",
+    "test:e2e": "playwright test",
     "build": "npm run typecheck && vite build",
     "check": "npm run lint && npm run test && npm run build",
     "preview": "vite preview"
@@ -24,6 +25,7 @@
     "vue-router": "^4.0.13"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@types/node": "^20.3.1",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
