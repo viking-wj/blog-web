@@ -24,7 +24,7 @@ describe('ArticleCard', () => {
     const links = wrapper.findAllComponents(RouterLinkStub)
     expect(links[0].props('to')).toBe('/article/hello%20world')
     expect(links[0].attributes('aria-label')).toBe('阅读《第一篇文章》')
-    expect(wrapper.get('.article-card__placeholder').attributes('aria-hidden')).toBe('true')
+    expect(wrapper.get('.app-image__fallback').attributes('aria-label')).toBe('第一篇文章的封面')
     expect(wrapper.text()).toContain('2 条评论')
     expect(wrapper.text()).toContain('这篇文章暂时没有摘要。')
   })

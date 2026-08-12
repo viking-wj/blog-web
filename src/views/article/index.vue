@@ -31,8 +31,9 @@
 
           <footer class="article__author">
             <div class="article__avatar" aria-hidden="true">
-              <img v-if="article.author.avatarUrl" :src="article.author.avatarUrl" alt="" width="64" height="64" />
-              <span v-else>{{ article.author.name.slice(0, 1).toUpperCase() }}</span>
+              <AppImage :src="article.author.avatarUrl" alt="" :width="64" :height="64" loading="eager">
+                <template #fallback>{{ article.author.name.slice(0, 1).toUpperCase() }}</template>
+              </AppImage>
             </div>
             <div>
               <span class="text-muted">本文作者</span>
@@ -70,6 +71,7 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import AppState from '@/components/AppState.vue'
+import AppImage from '@/components/AppImage.vue'
 import CommentForm from '@/features/comments/components/CommentForm.vue'
 import CommentList from '@/features/comments/components/CommentList.vue'
 import type { ArticleComment, CommentDraft } from '@/features/comments/model/types'
@@ -216,7 +218,8 @@ function submitComment(draft: CommentDraft): void {
   font-weight: 700;
 }
 
-.article__avatar img {
+.article__avatar img,
+.article__avatar .app-image__fallback {
   width: 100%;
   height: 100%;
   object-fit: cover;

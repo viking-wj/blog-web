@@ -1,16 +1,15 @@
 <template>
   <article class="article-card card card--interactive">
     <RouterLink class="article-card__media" :to="articleUrl" :aria-label="`阅读《${article.title}》`">
-      <img
-        v-if="article.thumbnailUrl"
+      <AppImage
+        class="article-card__image"
         :src="article.thumbnailUrl"
         :alt="`${article.title}的封面`"
-        width="720"
-        height="480"
-        loading="lazy"
-        decoding="async"
-      />
-      <span v-else class="article-card__placeholder" aria-hidden="true">W</span>
+        :width="720"
+        :height="480"
+      >
+        <template #fallback>W</template>
+      </AppImage>
     </RouterLink>
     <div class="card__body article-card__body">
       <div class="card__meta">
@@ -32,6 +31,7 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue'
+import AppImage from '@/components/AppImage.vue'
 import { formatDate, plainTextExcerpt } from '@/shared/lib/format'
 import type { ArticleSummary } from '../model/types'
 
@@ -50,16 +50,16 @@ const excerpt = computed(() => plainTextExcerpt(props.article.excerpt) || '这�
   overflow: hidden;
   background: linear-gradient(135deg, var(--acid), #d6e7da);
 }
-.article-card__media img {
+.article-card__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform var(--transition-base);
 }
-.article-card:hover img {
+.article-card:hover .article-card__image {
   transform: scale(1.035);
 }
-.article-card__placeholder {
+.article-card__image.app-image__fallback {
   display: grid;
   height: 100%;
   min-height: 16rem;

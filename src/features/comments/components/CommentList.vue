@@ -2,15 +2,9 @@
   <div v-if="comments.length" class="comment-list">
     <article v-for="comment in comments" :key="comment.id" class="comment">
       <div class="comment__avatar" aria-hidden="true">
-        <img
-          v-if="comment.author.avatarUrl"
-          :src="comment.author.avatarUrl"
-          alt=""
-          width="48"
-          height="48"
-          loading="lazy"
-        />
-        <span v-else>{{ comment.author.name.slice(0, 1).toUpperCase() }}</span>
+        <AppImage :src="comment.author.avatarUrl" alt="" :width="48" :height="48">
+          <template #fallback>{{ comment.author.name.slice(0, 1).toUpperCase() }}</template>
+        </AppImage>
       </div>
       <div class="comment__body">
         <header class="comment__header">
@@ -21,7 +15,9 @@
         <p>{{ comment.content }}</p>
         <div v-if="comment.imageUrls.length" class="comment__images">
           <a v-for="image in comment.imageUrls" :key="image" :href="image" target="_blank" rel="noopener noreferrer">
-            <img :src="image" alt="评论附图" width="120" height="120" loading="lazy" />
+            <AppImage :src="image" alt="评论附图" :width="120" :height="120">
+              <template #fallback>图片加载失败</template>
+            </AppImage>
           </a>
         </div>
       </div>
@@ -32,6 +28,7 @@
 
 <script setup lang="ts">
 import AppState from '@/components/AppState.vue'
+import AppImage from '@/components/AppImage.vue'
 import { formatDate } from '@/shared/lib/format'
 import type { ArticleComment } from '../model/types'
 
@@ -66,7 +63,8 @@ defineProps<{
   font-weight: 700;
 }
 
-.comment__avatar img {
+.comment__avatar img,
+.comment__avatar .app-image__fallback {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -104,8 +102,19 @@ defineProps<{
   border-radius: var(--radius-md);
 }
 
-.comment__images img {
+.comment__images img,
+.comment__images .app-image__fallback {
   object-fit: cover;
+}
+
+.comment__images .app-image__fallback {
+  display: grid;
+  place-items: center;
+  padding: var(--space-2);
+  color: var(--color-text-muted);
+  background: var(--mist);
+  font-size: var(--font-size-xs);
+  text-align: center;
 }
 
 @media (max-width: 35rem) {
