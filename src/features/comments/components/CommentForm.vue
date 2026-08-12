@@ -4,6 +4,7 @@
       <label class="field__label" for="comment-content">评论内容 <span aria-hidden="true">*</span></label>
       <textarea
         id="comment-content"
+        ref="contentInput"
         v-model="form.content"
         class="textarea"
         rows="6"
@@ -25,27 +26,33 @@
         <label class="field__label" for="comment-name">昵称 <span aria-hidden="true">*</span></label>
         <input
           id="comment-name"
+          ref="nameInput"
           v-model="form.name"
           class="input"
           required
           maxlength="30"
           autocomplete="name"
+          :aria-invalid="Boolean(errors.name)"
+          :aria-describedby="errors.name ? 'comment-name-error' : undefined"
           @blur="validateField('name')"
         />
-        <span v-if="errors.name" class="field__error" role="alert">{{ errors.name }}</span>
+        <span v-if="errors.name" id="comment-name-error" class="field__error" role="alert">{{ errors.name }}</span>
       </div>
       <div class="field">
         <label class="field__label" for="comment-email">邮箱 <span aria-hidden="true">*</span></label>
         <input
           id="comment-email"
+          ref="emailInput"
           v-model="form.email"
           class="input"
           required
           type="email"
           autocomplete="email"
+          :aria-invalid="Boolean(errors.email)"
+          :aria-describedby="errors.email ? 'comment-email-error' : undefined"
           @blur="validateField('email')"
         />
-        <span v-if="errors.email" class="field__error" role="alert">{{ errors.email }}</span>
+        <span v-if="errors.email" id="comment-email-error" class="field__error" role="alert">{{ errors.email }}</span>
       </div>
       <div class="field">
         <label class="field__label" for="comment-website">个人网站</label>
@@ -72,7 +79,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 import type { CommentDraft } from '../model/types'
 
 const emit = defineEmits<{
@@ -88,6 +95,9 @@ const form = reactive<CommentDraft>({
 })
 
 const errors = reactive<Partial<Record<'content' | 'name' | 'email', string>>>({})
+const contentInput = ref<HTMLTextAreaElement | null>(null)
+const nameInput = ref<HTMLInputElement | null>(null)
+const emailInput = ref<HTMLInputElement | null>(null)
 
 function validateField(field: 'content' | 'name' | 'email'): boolean {
   if (field === 'content') errors.content = form.content.trim() ? '' : '请填写评论内容。'
@@ -104,9 +114,12 @@ function selectImages(event: Event): void {
 }
 
 function submit(): void {
-  const valid = (['content', 'name', 'email'] as const).every(validateField)
+  const validationResults = (['content', 'name', 'email'] as const).map(validateField)
+  const valid = validationResults.every(Boolean)
   if (!valid) {
-    document.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus()
+    if (errors.content) contentInput.value?.focus()
+    else if (errors.name) nameInput.value?.focus()
+    else emailInput.value?.focus()
     return
   }
 
