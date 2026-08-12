@@ -61,14 +61,17 @@ function mapSummary(value: unknown): ArticleSummary {
 }
 
 export async function getArticles(filters: ArticleFilters = {}): Promise<ArticleSummary[]> {
+  const form = new URLSearchParams({
+    title: filters.title || '',
+    categoryId: filters.categoryId || '',
+    author: filters.author || ''
+  })
   const payload = await request<unknown[]>({
     url: '/article',
     method: 'POST',
-    data: {
-      title: filters.title || '',
-      categoryId: filters.categoryId || '',
-      // 兼容现有后端字段，前端领域模型统一使用 userId。
-      useId: filters.userId || ''
+    data: form,
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
     }
   })
 

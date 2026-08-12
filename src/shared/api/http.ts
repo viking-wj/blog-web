@@ -36,13 +36,20 @@ const client: AxiosInstance = axios.create({
   }
 })
 
+export function isRetryableRequest(
+  method: string | undefined,
+  status: number | undefined,
+  retryCount: number,
+  networkError: boolean
+): boolean {
+  const normalizedMethod = method?.toLowerCase() || 'get'
+  if (!RETRYABLE_METHODS.has(normalizedMethod) || retryCount >= MAX_RETRIES) return false
+  return networkError || (status !== undefined && RETRYABLE_STATUS.has(status))
+}
+
 function canRetry(error: AxiosError, config?: RetryableConfig): config is RetryableConfig {
   if (!config) return false
-
-  const method = config.method?.toLowerCase() || 'get'
-  if (!RETRYABLE_METHODS.has(method) || (config.retryCount || 0) >= MAX_RETRIES) return false
-
-  return !error.response || RETRYABLE_STATUS.has(error.response.status)
+  return isRetryableRequest(config.method, error.response?.status, config.retryCount || 0, !error.response)
 }
 
 function wait(milliseconds: number): Promise<void> {
@@ -61,15 +68,21 @@ client.interceptors.response.use(undefined, async (error: AxiosError) => {
   return Promise.reject(error)
 })
 
-function unwrapResponse<T>(payload: unknown): T {
+export function unwrapResponse<T>(payload: unknown): T {
   if (payload && typeof payload === 'object' && 'data' in payload) {
-    return (payload as ApiEnvelope<T>).data
+    const envelope = payload as ApiEnvelope<T>
+    if (envelope.code !== undefined && envelope.code !== 200) {
+      throw new AppError(envelope.message || '服务返回业务错误。', {
+        code: String(envelope.code)
+      })
+    }
+    return envelope.data
   }
 
   return payload as T
 }
 
-function toAppError(error: unknown): AppError {
+export function toAppError(error: unknown): AppError {
   if (!axios.isAxiosError(error)) {
     return error instanceof AppError ? error : new AppError('发生未知错误，请稍后重试。', { cause: error })
   }

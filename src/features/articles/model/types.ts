@@ -26,5 +26,5 @@ export interface ArticleDetail extends ArticleSummary {
 export interface ArticleFilters {
   title?: string
   categoryId?: string
-  userId?: string
+  author?: string
 }
