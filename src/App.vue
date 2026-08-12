@@ -1,158 +1,97 @@
 <template>
-  <div id="app">
-    <a @click="scrollClick"><img class="scroll" src="../static/image/scroll.png" /></a>
-    <headBar ref="headBar" @showSakura="showSakura"></headBar>
-    <transition name="fade">
-      <router-view class="routerBar" @changeHeadCss="changeHeadCss" @showSakura="showSakura"></router-view>
-    </transition>
+  <div class="app-shell">
+    <AppHeader :solid="headerSolid" />
+    <RouterView v-slot="{ Component }">
+      <Transition name="page" mode="out-in">
+        <component :is="Component" />
+      </Transition>
+    </RouterView>
+    <AppFooter />
+    <button v-show="showBackToTop" class="back-to-top" type="button" aria-label="返回页面顶部" @click="backToTop">
+      <svg aria-hidden="true" viewBox="0 0 24 24">
+        <path d="m6 15 6-6 6 6" />
+      </svg>
+    </button>
   </div>
 </template>
 
-<script>
-import headBar from '@/components/headbar.vue'
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
+import AppFooter from '@/components/AppFooter.vue'
+import AppHeader from '@/components/AppHeader.vue'
 
-export default {
-  name: 'App',
-  data() {
-    return {
-      scrollInterval: '',
-      scrollTop: 0,
-      routerLink: ''
-    }
-  },
-  components: {
-    headBar
-  },
-  methods: {
-    showSakura(is) {
-      // 樱花效果功能待实现
-    },
-    changeHeadCss() {
-      // console.log("%c修改头部css", "color:red")
-      this.$refs.headBar.isTools = true
-    },
-    handleScroll() {
-      this.routerLink = this.$router.currentRoute.fullPath
-      if (this.routerLink === '/') {
-        if (window.scrollY > 0) {
-          this.$refs.headBar.jsHover = true
-        } else {
-          this.$refs.headBar.jsHover = false
-        }
-      }
-      const scrollElement = document.querySelector('.scroll')
-      if (scrollElement) {
-        if (window.scrollY > 90) {
-          scrollElement.style.top = this.scrollTop + 'px'
-        } else {
-          scrollElement.style.top = '-920px'
-        }
-      }
-    },
-    scrollClick() {
-      const start = window.scrollY
-      const duration = 500 // 滚动持续时间（毫秒）
-      let startTime = null
+const route = useRoute()
+const pageScrolled = ref(false)
+const showBackToTop = ref(false)
+const headerSolid = computed(() => route.name !== 'home' || pageScrolled.value)
 
-      const animateScroll = (currentTime) => {
-        if (!startTime) startTime = currentTime
-        const progress = Math.min((currentTime - startTime) / duration, 1)
-        // 使用缓动函数，使滚动更自然
-        const easeProgress = 1 - Math.pow(1 - progress, 3)
-        const newScroll = start - start * easeProgress
-
-        if (newScroll > 1) {
-          window.scrollTo(0, newScroll)
-          requestAnimationFrame(animateScroll)
-        } else {
-          window.scrollTo(0, 0)
-        }
-      }
-
-      requestAnimationFrame(animateScroll)
-    }
-  },
-  //创建 初始化下拉条
-  created() {
-    document.addEventListener('scroll', this.handleScroll, true)
-    this.scrollTop = document.documentElement.clientHeight
-    this.scrollTop = 80 - (this.scrollTop - 495)
-    console.log(this.scrollTop)
-    this.$watch('routerLink', function (newValue, oldValue) {
-      if (newValue === '/') {
-        window.scrollTo(0, 0)
-      }
-    })
-  },
-  //加载完毕
-  mounted() {
-    this.handleScroll()
-  },
-  //组件销毁前移除事件监听器，防止内存泄漏
-  beforeUnmount() {
-    document.removeEventListener('scroll', this.handleScroll, true)
-  }
+function updateScrollState(): void {
+  pageScrolled.value = window.scrollY > 16
+  showBackToTop.value = window.scrollY > 480
 }
+
+function backToTop(): void {
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+onMounted(() => {
+  updateScrollState()
+  window.addEventListener('scroll', updateScrollState, { passive: true })
+})
+
+onBeforeUnmount(() => window.removeEventListener('scroll', updateScrollState))
 </script>
 
-<style>
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  /* 添加position: relative，确保router-view相对于app元素定位 */
-  position: relative;
+<style scoped>
+.app-shell {
+  min-height: 100vh;
 }
 
-.headBar {
+.back-to-top {
   position: fixed;
-  width: 100%;
-  z-index: 100;
+  z-index: 20;
+  right: max(var(--space-5), env(safe-area-inset-right));
+  bottom: max(var(--space-5), env(safe-area-inset-bottom));
+  display: grid;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  place-items: center;
+  color: #fff;
+  background: var(--color-primary);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+  transition: background var(--transition-fast), transform var(--transition-fast);
 }
 
-::-webkit-scrollbar {
-  /*滚动条整体样式*/
-  width: 5px; /*高宽分别对应横竖滚动条的尺寸*/
-  height: 10px;
+.back-to-top:hover {
+  background: var(--color-primary-hover);
+  transform: translateY(-2px);
 }
 
-::-webkit-scrollbar-thumb {
-  /*滚动条里面小方块*/
-  border-radius: 10px;
-  background-color: rgba(255, 255, 0, 0.8);
-  background-image: -webkit-linear-gradient(
-    45deg,
-    rgba(255, 255, 0, 0.2) 25%,
-    transparent 25%,
-    transparent 50%,
-    rgba(255, 255, 0, 0.2) 50%,
-    rgba(255, 255, 0, 0.2) 75%,
-    transparent 75%,
-    transparent
-  );
+.back-to-top svg {
+  width: 1.4rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
 }
 
-::-webkit-scrollbar-track {
-  /*滚动条里面轨道*/
-  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: #ededed;
-  border-radius: 10px;
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 180ms ease, transform 180ms ease;
 }
 
-.scroll {
-  position: fixed;
-  right: 55px;
-  top: -920px;
-  z-index: 99;
-  transition: top 0.3s linear;
-  animation: scrollMove 2.5s linear infinite;
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
 }
 
-.routerBar {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-3px);
 }
 </style>

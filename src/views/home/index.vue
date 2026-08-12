@@ -1,84 +1,150 @@
 <template>
-  <div id="home">
-    <div class="home-background-img">
-      <img src="https://myblog-w.oss-cn-shenzhen.aliyuncs.com/assest/background.png" />
-    </div>
-    <!-- 将self组件包裹在一个容器中，方便定位 -->
-    <div class="content-container">
-      <self></self>
-      <contents></contents>
-    </div>
-  </div>
+  <main id="main-content" tabindex="-1">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__backdrop" aria-hidden="true"></div>
+      <div class="container hero__content">
+        <span class="hero__eyebrow">WELCOME TO MY BLOG</span>
+        <h1 id="hero-title">记录思考，也记录生活</h1>
+        <p>在这里分享开发实践、踩坑经验与日常灵感。愿每一次阅读，都能带来一点新的启发。</p>
+        <a class="button button--primary hero__action" href="#latest-articles">开始阅读</a>
+      </div>
+    </section>
+
+    <section id="latest-articles" class="page-shell" aria-labelledby="latest-title">
+      <div class="container stack">
+        <header class="section-heading">
+          <div>
+            <span class="section-heading__eyebrow">LATEST WRITING</span>
+            <h2 id="latest-title">最新文章</h2>
+          </div>
+          <p>持续整理值得记录的技术与生活片段。</p>
+        </header>
+
+        <AppState v-if="loading" kind="loading" title="正在加载文章" message="请稍候，内容马上就来。" />
+        <AppState
+          v-else-if="error"
+          kind="error"
+          title="文章加载失败"
+          :message="error"
+          action-label="重新加载"
+          @action="load"
+        />
+        <AppState
+          v-else-if="!articles.length"
+          kind="empty"
+          title="暂时没有文章"
+          message="新的内容正在准备中，过一会儿再来看看吧。"
+          action-label="刷新"
+          @action="load"
+        />
+        <div v-else class="article-list">
+          <ArticleCard v-for="article in articles" :key="article.id" :article="article" />
+        </div>
+      </div>
+    </section>
+  </main>
 </template>
 
-<script lang="ts" setup>
-import self from '@/components/self.vue'
-import contents from '@/components/contents.vue'
-import { ref, Ref } from 'vue'
+<script setup lang="ts">
+import AppState from '@/components/AppState.vue'
+import ArticleCard from '@/features/articles/components/ArticleCard.vue'
+import { useArticleList } from '@/features/articles/composables/useArticleList'
 
-const scrollv: Ref<number> = ref(0)
-
-function resetScrollv() {
-  let yOffset = document.documentElement.scrollTop
-  scrollv.value = yOffset
-}
+const { articles, loading, error, load } = useArticleList()
 </script>
 
 <style scoped>
-#home {
-  margin: 0;
-  /* 确保home容器占满整个视口 */
-  width: 100%;
-  min-height: 100vh;
-  /* 相对定位，作为子元素的定位容器 */
+.hero {
   position: relative;
+  display: grid;
+  min-height: max(40rem, 100svh);
+  place-items: center;
+  overflow: hidden;
+  color: #fff;
+  background: linear-gradient(120deg, rgb(15 23 42 / 78%), rgb(46 28 8 / 48%)),
+    url('../../../static/image/10.jpg') center / cover no-repeat;
 }
 
-.home-background-img {
-  /* 背景图片容器绝对定位，只覆盖首屏 */
+.hero__backdrop {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  /* 置于底层，只作为首屏背景 */
-  z-index: 0;
+  inset: 0;
+  background: radial-gradient(circle at 75% 25%, rgb(254 150 0 / 22%), transparent 32%),
+    linear-gradient(to top, rgb(16 24 40 / 28%), transparent 45%);
 }
 
-.home-background-img img {
-  /* 背景图片铺满容器 */
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* 确保图片居中 */
-  object-position: center;
-}
-
-.content-container {
-  /* 内容容器相对定位 */
+.hero__content {
   position: relative;
-  /* 置于中层 */
-  z-index: 1;
+  max-width: 52rem;
+  padding-block: calc(var(--header-height) + var(--space-12)) var(--space-16);
+  text-align: center;
 }
 
-self {
-  /* self组件占满视口高度，确保其内容能居中 */
-  display: block;
-  width: 100%;
-  height: 100vh;
-  /* 确保self组件显示在背景图片之上 */
-  position: relative;
-  z-index: 2;
+.hero__eyebrow,
+.section-heading__eyebrow {
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  letter-spacing: 0.16em;
 }
 
-contents {
-  /* contents组件从第二屏开始显示，避免与背景图片重叠 */
-  display: block;
-  width: 100%;
-  /* 添加margin-top，确保contents组件从首屏下方开始显示 */
-  margin-top: -50px;
-  /* 设置较高的z-index，确保contents组件显示在所有背景之上 */
-  position: relative;
-  z-index: 3;
+.hero h1 {
+  max-width: 14ch;
+  margin: var(--space-5) auto var(--space-6);
+  color: #fff;
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.hero p {
+  max-width: 42rem;
+  margin: 0 auto var(--space-8);
+  color: rgb(255 255 255 / 84%);
+  font-size: clamp(1rem, 2vw, 1.15rem);
+}
+
+.hero__action {
+  min-width: 9rem;
+}
+
+.section-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-8);
+  margin-bottom: var(--space-4);
+}
+
+.section-heading h2 {
+  margin: var(--space-2) 0 0;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.section-heading p {
+  max-width: 24rem;
+  margin: 0;
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+
+.article-list {
+  display: grid;
+  gap: var(--space-8);
+}
+
+@media (max-width: 47.99rem) {
+  .hero {
+    min-height: 100svh;
+  }
+
+  .section-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .section-heading p {
+    text-align: left;
+  }
 }
 </style>
