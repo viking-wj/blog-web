@@ -1,22 +1,42 @@
-<<<<<<< HEAD
-# Vue 3 + TypeScript + Vite
-
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Type Support For `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
-
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
-
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
-=======
 # blog-web
->>>>>>> ed947da5c5c317701e69f0107c540081e8b64af0
+
+使用 Vue 3、TypeScript 与 Vite 构建的个人博客前端。
+
+## 本地开发
+
+```bash
+npm install
+npm run dev
+```
+
+复制 `.env.example` 为 `.env.local`，按需修改接口地址：
+
+```env
+VITE_API_BASE_URL=/api
+VITE_APP_TITLE=W 的小站
+```
+
+## 质量检查
+
+```bash
+npm run typecheck
+npm run lint
+npm run build
+npm run check
+```
+
+`npm run build` 会先进行完整的 Vue/TypeScript 类型检查。
+
+## 目录结构
+
+```text
+src/
+├─ components/     # 跨业务复用组件
+├─ features/       # articles、comments 等业务切片
+├─ router/         # 路由与页面元信息
+├─ shared/         # API、配置、工具与通用能力
+├─ style/          # 设计系统与全局样式
+└─ views/          # 路由页面
+```
+
+详细的优化背景、迁移阶段和验收标准见 [重构方案](docs/REFACTORING.md)。
