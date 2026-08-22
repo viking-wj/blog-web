@@ -131,6 +131,12 @@ const { articles, loading, error, load } = useArticleList()
 @media (max-width: 48rem) {
   .hero {
     min-height: calc(100svh - var(--header-height));
+    background-image: linear-gradient(
+        120deg,
+        color-mix(in srgb, var(--acid) 16%, var(--paper)),
+        color-mix(in srgb, var(--paper) 72%, transparent)
+      ),
+      url('../../../static/image/10-mobile.jpg');
   }
   .section-heading {
     align-items: start;
